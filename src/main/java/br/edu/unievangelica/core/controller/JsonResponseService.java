@@ -58,6 +58,7 @@ public class JsonResponseService {
 
     public void clearMessages(){
         this.messageHolder.set(null);
+        this.setHttpStatus(HttpStatus.OK);
     }
 
     public Map<JsonResponseType, List<String>> getMessageList() {
