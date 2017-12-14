@@ -19,6 +19,8 @@ public class ResponseAbstractController {
         try {
             JsonResponse response = jsonResponseFactory.create(content, getResponseService().getMessageList());
 
+            getResponseService().clearMessages();
+
             return new ResponseEntity<>(response, getResponseService().getHttpStatus());
 
         } finally {

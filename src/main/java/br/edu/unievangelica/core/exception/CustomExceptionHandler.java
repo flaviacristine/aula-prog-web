@@ -27,7 +27,7 @@ public class CustomExceptionHandler {
         return this.formatDefaultResponse(e, jsonResponseService.getHttpStatus());
     }
     private ResponseEntity<?> formatDefaultResponse(Exception e, HttpStatus status){
-        return this.formatDefaultResponse(e.getMessage(), jsonResponseService.getHttpStatus());
+        return this.formatDefaultResponse(e.getMessage(), status);
     }
 
 
@@ -40,26 +40,20 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handleAccessDeniedException(RuntimeException e) {
-        System.out.println("------ handleAccessDeniedException =" + e.getStackTrace());
+        System.out.println("------ AccessDeniedException.class =" + e.getStackTrace());
         return this.formatDefaultResponse(ExceptionMessageCode.MENSAGEM_UNAUTHORIZED_ERROR, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler({EntityNotFoundException.class, CustomNotFoundException.class })
     public ResponseEntity<?> handleEntityNotFoundException(RuntimeException e) {
-        System.out.println("------ handleEntityNotFoundException " + e.getStackTrace());
+        System.out.println("------ NotFoundException " + e.getStackTrace());
         return this.formatDefaultResponse(ExceptionMessageCode.MENSAGEM_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler({RuntimeException.class, GenericException.class})
     public ResponseEntity<?> handleRuntimeException(RuntimeException e){
-        System.out.println("------ handleRuntimeException " + e.getClass() + " / " + e.getMessage());
-        return this.formatDefaultResponse(e);
-    }
-
-    @ExceptionHandler(CustomNotFoundException.class)
-    public ResponseEntity<?> handleNotFoundException(RuntimeException e){
-        System.out.println("------ handleNotFoundException " + e.getClass() + " / " + e.getMessage());
-        return this.formatDefaultResponse(e);
+        System.out.println("------ RuntimeException -  GenericException " + e.getClass() + " / " + e.getMessage());
+        return this.formatDefaultResponse(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

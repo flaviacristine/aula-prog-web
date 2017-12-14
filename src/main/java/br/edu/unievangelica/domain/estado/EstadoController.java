@@ -1,4 +1,5 @@
-package br.edu.unievangelica.domain.pais;
+package br.edu.unievangelica.domain.estado;
+
 
 import br.edu.unievangelica.core.controller.ResponseAbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,40 +7,39 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-@RequestMapping("/pais")
-public class PaisController extends ResponseAbstractController {
+@RequestMapping("/estado")
+public class EstadoController extends ResponseAbstractController {
 
     @Autowired
-    PaisService paisService;
+    EstadoService estadoService;
 
 
     @GetMapping
     public ResponseEntity<?> findAll(){
-        System.out.println(" ----------- findAll Pais");
-        return jsonResponse(paisService.findAll());
+        System.out.println(" ----------- findAll Estado");
+        return jsonResponse(estadoService.findAll());
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id){
-        Pais pais = paisService.findOnde(id);
-        return jsonResponse(pais);
+        Estado estado = estadoService.findOnde(id);
+        return jsonResponse(estado);
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@Validated @RequestBody Pais pais){
-        return jsonResponse(paisService.save(pais));
+    public ResponseEntity<?> save(@Validated @RequestBody Estado estado){
+        return jsonResponse(estadoService.save(estado));
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@Validated @RequestBody Pais pais){
-        return jsonResponse(paisService.save(pais));
+    public ResponseEntity<?> update(@Validated @RequestBody Estado estado){
+        return jsonResponse(estadoService.save(estado));
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable long id){
-        paisService.delete(id);
+        estadoService.delete(id);
         return jsonResponse(null);
     }
 

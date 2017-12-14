@@ -1,6 +1,7 @@
 package br.edu.unievangelica.core.service;
 
 
+import br.edu.unievangelica.core.exception.CustomNotFoundException;
 import br.edu.unievangelica.core.exception.ExceptionMessageCode;
 import br.edu.unievangelica.core.exception.GenericException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,15 @@ public class AbstractService<T> implements IService<T> {
                 throw new GenericException(ExceptionMessageCode.MENSAGEM_REGISTRO_COM_DEPENDENCIA);
             }
         }
-        return false;
+
+        throw new CustomNotFoundException(ExceptionMessageCode.MENSAGEM_NOT_FOUND);
     }
 
     @Override
     public List<T> findAll() {
+
+        //throw new CustomNotFoundException(ExceptionMessageCode.MENSAGEM_NOT_FOUND);
+
         return (List<T>) repository.findAll();
     }
 
