@@ -1,5 +1,6 @@
 package br.edu.unievangelica.domain.pais;
 
+import br.edu.unievangelica.domain.estado.Estado;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,8 +19,8 @@ public class Pais implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "pais_id_seq")
-    @SequenceGenerator( name = "pais_id_seq", sequenceName = "pais_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pais_id_seq")
+    @SequenceGenerator(name = "pais_id_seq", sequenceName = "pais_id_seq", allocationSize = 1)
     @Column(name = "id")
     @Getter
     private long id;
