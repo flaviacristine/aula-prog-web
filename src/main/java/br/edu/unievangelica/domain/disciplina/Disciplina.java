@@ -1,10 +1,12 @@
 package br.edu.unievangelica.domain.disciplina;
 
+import br.edu.unievangelica.domain.unidade.Unidade;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -31,26 +33,13 @@ public class Disciplina implements Serializable {
     @Size(max = 10)
     @NotEmpty
     @Column(name = "codigo")
-    @Getter
-    @Setter
+    @Getter @Setter
     private String codigo;
 
-//    @JsonIgnore
-//    @Enumerated(EnumType.ORDINAL)
-//    @Column(name = "situacao")
-//    @Getter @Setter
-//    private SituacaoEnum situacao = SituacaoEnum.ATIVO;
-
-//    @JsonIgnore
-//    @NotNull
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "unidade_id", referencedColumnName = "id")
-//    @Getter @Setter
-//    private Unidade unidade;
-
-//    @JsonIgnore
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplina")
-//    @Getter @Setter
-//    private List<SerieDisciplina> serieDisciplinas;
-
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "unidade_id", referencedColumnName = "id")
+    @Getter
+    @Setter
+    Unidade unidade;
 }
