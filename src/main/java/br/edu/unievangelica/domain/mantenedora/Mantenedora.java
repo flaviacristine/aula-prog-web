@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "mantenedora")
-@JsonIgnoreProperties({"mantenedoras"})
+@JsonIgnoreProperties({"instituicoes"})
 public class Mantenedora implements Serializable {
 
     private static final long serialVersionUID = 1L;

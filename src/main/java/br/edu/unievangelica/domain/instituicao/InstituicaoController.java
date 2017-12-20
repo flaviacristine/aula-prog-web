@@ -28,7 +28,7 @@ public class InstituicaoController extends ResponseAbstractController {
     //Buscar a instituicao pelo id
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id) {
-        Instituicao instituicao = instituicaoService.findOnde(id);
+        Instituicao instituicao = instituicaoService.findOne(id);
         return jsonResponse(instituicao);
     }
 

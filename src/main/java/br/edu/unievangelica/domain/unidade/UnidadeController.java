@@ -21,7 +21,7 @@ public class UnidadeController extends ResponseAbstractController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id){
-        Unidade unidade = unidadeService.findOnde(id);
+        Unidade unidade = unidadeService.findOne(id);
         return jsonResponse(unidade);
     }
 

@@ -1,10 +1,13 @@
 package br.edu.unievangelica.domain.instituicao;
 
+import br.edu.unievangelica.domain.mantenedora.Mantenedora;
+import br.edu.unievangelica.domain.pais.Pais;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -41,5 +44,12 @@ public class Instituicao implements Serializable {
     @Getter
     @Setter
     private String numeroFiscal;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "mantenedora_id", referencedColumnName = "id")
+    @Getter
+    @Setter
+    Mantenedora mantenedora;
 
 }

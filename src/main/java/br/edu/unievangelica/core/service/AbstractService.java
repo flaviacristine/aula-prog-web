@@ -48,7 +48,7 @@ public class AbstractService<T> implements IService<T> {
     }
 
     @Override
-    public T findOnde(long id) throws GenericException {
+    public T findOne(long id) throws GenericException {
         T obj = repository.findOne(id);
         if (obj == null) {
             throw new GenericException(ExceptionMessageCode.MENSAGEM_NOT_FOUND);

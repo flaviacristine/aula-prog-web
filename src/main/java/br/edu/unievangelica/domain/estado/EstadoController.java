@@ -23,7 +23,7 @@ public class EstadoController extends ResponseAbstractController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id){
-        Estado estado = estadoService.findOnde(id);
+        Estado estado = estadoService.findOne(id);
         return jsonResponse(estado);
     }
 

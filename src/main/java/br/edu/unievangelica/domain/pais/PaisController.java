@@ -23,7 +23,7 @@ public class PaisController extends ResponseAbstractController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id){
-        Pais pais = paisService.findOnde(id);
+        Pais pais = paisService.findOne(id);
         return jsonResponse(pais);
     }
 

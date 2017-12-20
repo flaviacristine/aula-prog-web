@@ -22,7 +22,7 @@ public class CursoController extends ResponseAbstractController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id) {
-        return jsonResponse(cursoService.findOnde(id));
+        return jsonResponse(cursoService.findOne(id));
     }
 
     @PostMapping
