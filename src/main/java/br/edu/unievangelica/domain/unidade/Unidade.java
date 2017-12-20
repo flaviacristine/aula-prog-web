@@ -1,6 +1,7 @@
 package br.edu.unievangelica.domain.unidade;
 
 import br.edu.unievangelica.domain.arquivo.Arquivo;
+import br.edu.unievangelica.domain.curso.Curso;
 import br.edu.unievangelica.domain.disciplina.Disciplina;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "unidade")
-@JsonIgnoreProperties({"disciplinas"})
+@JsonIgnoreProperties({"disciplinas", "cursos"})
 public class Unidade implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,4 +49,9 @@ public class Unidade implements Serializable {
     @Getter
     @Setter
     private Arquivo arquivo;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "unidade")
+    @Getter
+    @Setter
+    private List<Curso> cursos;
 }
