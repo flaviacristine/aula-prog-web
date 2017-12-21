@@ -20,8 +20,7 @@ public class DisciplinaController extends ResponseAbstractController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id) {
-        Disciplina disciplina = disciplinaService.findOnde(id);
-        return jsonResponse(disciplina);
+        return jsonResponse(disciplinaService.findOne(id));
     }
 
     @PostMapping

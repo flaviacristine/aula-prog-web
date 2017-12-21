@@ -6,14 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/curso")
 public class CursoController extends ResponseAbstractController {
 
     @Autowired
     CursoService cursoService;
-
 
     @GetMapping
     public ResponseEntity<?> findAll() {
@@ -22,7 +20,7 @@ public class CursoController extends ResponseAbstractController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id) {
-        return jsonResponse(cursoService.findOnde(id));
+        return jsonResponse(cursoService.findOne(id));
     }
 
     @PostMapping
@@ -40,6 +38,5 @@ public class CursoController extends ResponseAbstractController {
         cursoService.delete(id);
         return jsonResponse(null);
     }
-
 
 }

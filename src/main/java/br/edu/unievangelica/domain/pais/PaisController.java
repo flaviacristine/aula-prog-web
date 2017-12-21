@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/pais")
 public class PaisController extends ResponseAbstractController {
@@ -14,35 +13,30 @@ public class PaisController extends ResponseAbstractController {
     @Autowired
     PaisService paisService;
 
-
     @GetMapping
-    public ResponseEntity<?> findAll(){
-        System.out.println(" ----------- findAll Pais");
+    public ResponseEntity<?> findAll() {
         return jsonResponse(paisService.findAll());
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable long id){
-        Pais pais = paisService.findOnde(id);
-        return jsonResponse(pais);
+    public ResponseEntity<?> findById(@PathVariable long id) {
+        return jsonResponse(paisService.findOne(id));
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@Validated @RequestBody Pais pais){
+    public ResponseEntity<?> save(@Validated @RequestBody Pais pais) {
         return jsonResponse(paisService.save(pais));
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@Validated @RequestBody Pais pais){
+    public ResponseEntity<?> update(@Validated @RequestBody Pais pais) {
         return jsonResponse(paisService.save(pais));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable long id){
+    public ResponseEntity<?> delete(@PathVariable long id) {
         paisService.delete(id);
         return jsonResponse(null);
     }
-
-
 
 }

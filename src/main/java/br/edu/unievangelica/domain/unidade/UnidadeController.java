@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/unidade")
 public class UnidadeController extends ResponseAbstractController {
@@ -15,32 +14,29 @@ public class UnidadeController extends ResponseAbstractController {
     UnidadeService unidadeService;
 
     @GetMapping
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<?> findAll() {
         return jsonResponse(unidadeService.findAll());
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable long id){
-        Unidade unidade = unidadeService.findOnde(id);
-        return jsonResponse(unidade);
+    public ResponseEntity<?> findById(@PathVariable long id) {
+        return jsonResponse(unidadeService.findOne(id));
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@Validated @RequestBody Unidade unidade){
+    public ResponseEntity<?> save(@Validated @RequestBody Unidade unidade) {
         return jsonResponse(unidadeService.save(unidade));
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@Validated @RequestBody Unidade unidade){
+    public ResponseEntity<?> update(@Validated @RequestBody Unidade unidade) {
         return jsonResponse(unidadeService.save(unidade));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable long id){
+    public ResponseEntity<?> delete(@PathVariable long id) {
         unidadeService.delete(id);
         return jsonResponse(null);
     }
-
-
 
 }

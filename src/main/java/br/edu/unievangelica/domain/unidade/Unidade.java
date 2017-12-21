@@ -50,7 +50,7 @@ public class Unidade implements Serializable {
     @Setter
     private Arquivo arquivo;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "unidade")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "unidade")
     @Getter
     @Setter
     private List<Curso> cursos;

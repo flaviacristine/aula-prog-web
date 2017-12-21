@@ -1,5 +1,6 @@
 package br.edu.unievangelica.domain.curso;
 
+import br.edu.unievangelica.domain.cursoTurno.CursoTurno;
 import br.edu.unievangelica.domain.unidade.Unidade;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -7,12 +8,15 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "curso")
+@JsonIgnoreProperties({ "cursoTurnos" })
 public class Curso implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,6 +34,13 @@ public class Curso implements Serializable {
     @Getter
     @Setter
     private String nome;
+
+    @NotNull
+    @Valid
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "curso", orphanRemoval=true)
+    @Getter
+    @Setter
+    private List<CursoTurno> cursoTurnos;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)

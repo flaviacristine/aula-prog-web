@@ -13,12 +13,6 @@ public class InstituicaoController extends ResponseAbstractController {
     @Autowired
     private InstituicaoService instituicaoService;
 
-    /**
-     * CRUD Instituicao
-     *
-     * @return
-     */
-
     //Listar Instituição
     @GetMapping
     public ResponseEntity<?> findAll() {
@@ -28,8 +22,7 @@ public class InstituicaoController extends ResponseAbstractController {
     //Buscar a instituicao pelo id
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id) {
-        Instituicao instituicao = instituicaoService.findOnde(id);
-        return jsonResponse(instituicao);
+        return jsonResponse(instituicaoService.findOne(id));
     }
 
     //Salvar instituicao

@@ -13,7 +13,7 @@ public interface IService<T> {
 
     public List<T> findAll();
 
-    public T findOnde(long id) throws GenericException;
+    public T findOne(long id) throws GenericException;
 
     public boolean exists(long id) throws GenericException;
 
