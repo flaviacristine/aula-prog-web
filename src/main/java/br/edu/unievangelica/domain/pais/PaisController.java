@@ -17,7 +17,6 @@ public class PaisController extends ResponseAbstractController {
 
     @GetMapping
     public ResponseEntity<?> findAll(){
-        System.out.println(" ----------- findAll Pais");
         return jsonResponse(paisService.findAll());
     }
 

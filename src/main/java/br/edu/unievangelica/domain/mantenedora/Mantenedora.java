@@ -1,23 +1,23 @@
 package br.edu.unievangelica.domain.mantenedora;
 
 import br.edu.unievangelica.domain.instituicao.Instituicao;
+import br.edu.unievangelica.domain.pais.Pais;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by tauan.camargo on 19/12/2017.
  */
 @Entity
 @Table(name = "mantenedora")
-@JsonIgnoreProperties({"instituicoes"})
+@JsonIgnoreProperties({"pais"})
 public class Mantenedora implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,8 +47,43 @@ public class Mantenedora implements Serializable {
     @Getter @Setter
     private String numeroFiscal;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mantenedora")
+    @Size(max = 100)
+    @Column(name = "endereco")
     @Getter @Setter
-    private List<Instituicao> instituicoes;
+    private String endereco;
 
+    @NotNull
+    @Size(max = 50)
+    @Column(name = "bairro")
+    @Getter @Setter
+    private String bairro;
+
+    @Size(max = 5)
+    @Column(name = "numero")
+    @Getter @Setter
+    private String numero;
+
+    @Size(max = 10)
+    @Column(name = "caixaPostal")
+    @Getter @Setter
+    private String caixaPostal;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "pais_id", referencedColumnName = "id")
+    @Getter @Setter
+    Pais pais;
+
+//    @NotNull
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mantenedora")
+//    @Getter @Setter
+//    private List<Instituicao> instituicoes;
+
+//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "mantenedora")
+//    @Getter @Setter
+//    private List<Provincia> provincia;
+
+//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "mantenedora")
+//    @Getter @Setter
+//    private List<Municipio> municipio;
 }

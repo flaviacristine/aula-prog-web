@@ -45,11 +45,4 @@ public class Instituicao implements Serializable {
     @Setter
     private String numeroFiscal;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "mantenedora_id", referencedColumnName = "id")
-    @Getter
-    @Setter
-    Mantenedora mantenedora;
-
 }
