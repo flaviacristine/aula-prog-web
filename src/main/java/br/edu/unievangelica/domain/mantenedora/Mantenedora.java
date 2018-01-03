@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by tauan.camargo on 19/12/2017.
@@ -68,22 +69,9 @@ public class Mantenedora implements Serializable {
     @Getter @Setter
     private String caixaPostal;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pais_id", referencedColumnName = "id")
-    @Getter @Setter
-    Pais pais;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mantenedora")
+    @Getter
+    @Setter
+    private List<Instituicao> instituicoes;
 
-//    @NotNull
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mantenedora")
-//    @Getter @Setter
-//    private List<Instituicao> instituicoes;
-
-//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "mantenedora")
-//    @Getter @Setter
-//    private List<Provincia> provincia;
-
-//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "mantenedora")
-//    @Getter @Setter
-//    private List<Municipio> municipio;
 }

@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "instituicao")
@@ -44,5 +45,12 @@ public class Instituicao implements Serializable {
     @Getter
     @Setter
     private String numeroFiscal;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mantenedora_id", referencedColumnName = "id")
+    @Getter
+    @Setter
+    private Mantenedora mantenedora;
 
 }
