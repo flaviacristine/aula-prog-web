@@ -1,8 +1,7 @@
-package br.edu.unievangelica.domain.instituicao;
+package br.edu.unievangelica.domain.mantenedora;
 
-import br.edu.unievangelica.domain.mantenedora.Mantenedora;
+import br.edu.unievangelica.domain.instituicao.Instituicao;
 import br.edu.unievangelica.domain.pais.Pais;
-import br.edu.unievangelica.domain.unidade.Unidade;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,16 +13,19 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Created by tauan.camargo on 19/12/2017.
+ */
 @Entity
-@Table(name = "instituicao")
-@JsonIgnoreProperties({"unidades"})
-public class Instituicao implements Serializable {
+@Table(name = "mantenedora")
+@JsonIgnoreProperties({"instituicoes"})
+public class Mantenedora implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "instituicao_id_seq")
-    @SequenceGenerator(name = "instituicao_id_seq", sequenceName = "instituicao_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mantenedora_id_seq")
+    @SequenceGenerator(name = "mantenedora_id_seq", sequenceName = "mantenedora_id_seq", allocationSize = 1)
     @Column(name = "id")
     @Getter
     private long id;
@@ -81,16 +83,9 @@ public class Instituicao implements Serializable {
     @Setter
     private Pais pais;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "mantenedora_id", referencedColumnName = "id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mantenedora")
     @Getter
     @Setter
-    private Mantenedora mantenedora;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "instituicao")
-    @Getter
-    @Setter
-    private List<Unidade> unidades;
+    private List<Instituicao> instituicoes;
 
 }

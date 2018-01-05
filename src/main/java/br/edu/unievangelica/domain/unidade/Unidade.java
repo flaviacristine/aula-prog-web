@@ -3,12 +3,15 @@ package br.edu.unievangelica.domain.unidade;
 import br.edu.unievangelica.domain.arquivo.Arquivo;
 import br.edu.unievangelica.domain.curso.Curso;
 import br.edu.unievangelica.domain.disciplina.Disciplina;
+import br.edu.unievangelica.domain.instituicao.Instituicao;
+import br.edu.unievangelica.domain.mantenedora.Mantenedora;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
@@ -54,4 +57,11 @@ public class Unidade implements Serializable {
     @Getter
     @Setter
     private List<Curso> cursos;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "instituicao_id", referencedColumnName = "id")
+    @Getter
+    @Setter
+    private Instituicao instituicao;
 }
