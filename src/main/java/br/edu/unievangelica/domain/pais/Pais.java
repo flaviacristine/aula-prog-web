@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pais")
-@JsonIgnoreProperties({"estados, mantenedoras"})
+@JsonIgnoreProperties({"estados", "mantenedoras"})
 public class Pais implements Serializable {
 
     private static final long serialVersionUID = 1L;

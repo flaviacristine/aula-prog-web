@@ -18,56 +18,70 @@ import java.util.List;
  */
 @Entity
 @Table(name = "mantenedora")
-@JsonIgnoreProperties({"pais"})
+@JsonIgnoreProperties({"instituicoes"})
 public class Mantenedora implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "mantenedora_id_seq")
-    @SequenceGenerator( name = "mantenedora_id_seq", sequenceName = "mantenedora_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mantenedora_id_seq")
+    @SequenceGenerator(name = "mantenedora_id_seq", sequenceName = "mantenedora_id_seq", allocationSize = 1)
     @Column(name = "id")
     @Getter
     private long id;
 
     @NotEmpty
     @Size(max = 10)
-    @Column(name = "codigo", updatable= false)
-    @Getter @Setter
+    @Column(name = "codigo", updatable = false)
+    @Getter
+    @Setter
     private String codigo;
 
     @NotEmpty
     @Size(max = 80)
     @Column(name = "nome")
-    @Getter @Setter
+    @Getter
+    @Setter
     private String nome;
 
     @NotEmpty
     @Size(max = 20)
     @Column(name = "numero_fiscal")
-    @Getter @Setter
+    @Getter
+    @Setter
     private String numeroFiscal;
 
     @Size(max = 100)
     @Column(name = "endereco")
-    @Getter @Setter
+    @Getter
+    @Setter
     private String endereco;
 
     @NotNull
     @Size(max = 50)
     @Column(name = "bairro")
-    @Getter @Setter
+    @Getter
+    @Setter
     private String bairro;
 
     @Size(max = 5)
     @Column(name = "numero")
-    @Getter @Setter
+    @Getter
+    @Setter
     private String numero;
 
     @Size(max = 10)
     @Column(name = "caixaPostal")
-    @Getter @Setter
+    @Getter
+    @Setter
     private String caixaPostal;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "pais_id", referencedColumnName = "id")
+    @Getter
+    @Setter
+    private Pais pais;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "mantenedora")
     @Getter

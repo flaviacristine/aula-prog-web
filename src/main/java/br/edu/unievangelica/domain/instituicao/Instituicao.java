@@ -2,6 +2,8 @@ package br.edu.unievangelica.domain.instituicao;
 
 import br.edu.unievangelica.domain.mantenedora.Mantenedora;
 import br.edu.unievangelica.domain.pais.Pais;
+import br.edu.unievangelica.domain.unidade.Unidade;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "instituicao")
+@JsonIgnoreProperties({"unidades"})
 public class Instituicao implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,11 +49,48 @@ public class Instituicao implements Serializable {
     @Setter
     private String numeroFiscal;
 
+    @Size(max = 100)
+    @Column(name = "endereco")
+    @Getter
+    @Setter
+    private String endereco;
+
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Size(max = 50)
+    @Column(name = "bairro")
+    @Getter
+    @Setter
+    private String bairro;
+
+    @Size(max = 5)
+    @Column(name = "numero")
+    @Getter
+    @Setter
+    private String numero;
+
+    @Size(max = 10)
+    @Column(name = "caixaPostal")
+    @Getter
+    @Setter
+    private String caixaPostal;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "pais_id", referencedColumnName = "id")
+    @Getter
+    @Setter
+    private Pais pais;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mantenedora_id", referencedColumnName = "id")
     @Getter
     @Setter
     private Mantenedora mantenedora;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "instituicao")
+    @Getter
+    @Setter
+    private List<Unidade> unidades;
 
 }
