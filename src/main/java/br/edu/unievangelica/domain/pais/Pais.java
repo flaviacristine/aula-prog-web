@@ -15,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pais")
-@JsonIgnoreProperties({"estados", "mantenedoras"})
+@JsonIgnoreProperties({"estados", "mantenedoras", "instituicoesEscolaridade"})
 public class Pais implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,5 +53,5 @@ public class Pais implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pais")
     @Getter
     @Setter
-    private List<InstituicaoEscolaridade> instituicaoEscolaridades ;
+    private List<InstituicaoEscolaridade> instituicoesEscolaridade ;
 }
