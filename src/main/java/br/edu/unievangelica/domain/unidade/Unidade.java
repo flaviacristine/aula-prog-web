@@ -1,8 +1,10 @@
 package br.edu.unievangelica.domain.unidade;
 
 import br.edu.unievangelica.domain.arquivo.Arquivo;
+import br.edu.unievangelica.domain.avaliacaoPadrao.AvaliacaoPadrao;
 import br.edu.unievangelica.domain.curso.Curso;
 import br.edu.unievangelica.domain.disciplina.Disciplina;
+import br.edu.unievangelica.domain.frequenciaPadrao.FrequenciaPadrao;
 import br.edu.unievangelica.domain.instituicao.Instituicao;
 import br.edu.unievangelica.domain.mantenedora.Mantenedora;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,7 +20,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "unidade")
-@JsonIgnoreProperties({"disciplinas", "cursos"})
+@JsonIgnoreProperties({"disciplinas", "cursos", "avaliacoesPadrao", "frequenciasPadrao"})
 public class Unidade implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,15 +55,25 @@ public class Unidade implements Serializable {
     @Setter
     private Arquivo arquivo;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "unidade")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "unidade")
     @Getter
     @Setter
     private List<Curso> cursos;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "instituicao_id", referencedColumnName = "id")
     @Getter
     @Setter
     private Instituicao instituicao;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "unidade")
+    @Getter
+    @Setter
+    private List<AvaliacaoPadrao> avaliacoesPadrao;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "unidade")
+    @Getter
+    @Setter
+    private List<FrequenciaPadrao> frequenciasPadrao;
 }
