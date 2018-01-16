@@ -1,5 +1,6 @@
 package br.edu.unievangelica.domain.curso;
 
+import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.cursoTurno.CursoTurno;
 import br.edu.unievangelica.domain.unidade.Unidade;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -34,6 +35,11 @@ public class Curso implements Serializable {
     @Getter
     @Setter
     private String nome;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "situacao")
+    @Getter @Setter
+    private SituacaoEnum situacao = SituacaoEnum.ATIVO;
 
     @NotNull
     @Valid

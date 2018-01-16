@@ -1,5 +1,6 @@
 package br.edu.unievangelica.domain.disciplina;
 
+import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.unidade.Unidade;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +36,11 @@ public class Disciplina implements Serializable {
     @Column(name = "codigo")
     @Getter @Setter
     private String codigo;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "situacao")
+    @Getter @Setter
+    private SituacaoEnum situacao = SituacaoEnum.ATIVO;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)

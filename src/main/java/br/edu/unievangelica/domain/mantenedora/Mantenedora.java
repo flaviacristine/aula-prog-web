@@ -1,5 +1,6 @@
 package br.edu.unievangelica.domain.mantenedora;
 
+import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.instituicao.Instituicao;
 import br.edu.unievangelica.domain.pais.Pais;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -43,6 +44,11 @@ public class Mantenedora implements Serializable {
     @Getter
     @Setter
     private String nome;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "situacao")
+    @Getter @Setter
+    private SituacaoEnum situacao = SituacaoEnum.ATIVO;
 
     @NotEmpty
     @Size(max = 20)

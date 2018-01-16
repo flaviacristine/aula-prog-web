@@ -1,5 +1,6 @@
 package br.edu.unievangelica.domain.unidade;
 
+import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.arquivo.Arquivo;
 import br.edu.unievangelica.domain.curso.Curso;
 import br.edu.unievangelica.domain.disciplina.Disciplina;
@@ -41,6 +42,11 @@ public class Unidade implements Serializable {
     @Column(name = "nome")
     @Getter @Setter
     private String nome;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "situacao")
+    @Getter @Setter
+    private SituacaoEnum situacao = SituacaoEnum.ATIVO;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "unidade")
     @Getter

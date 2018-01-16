@@ -30,11 +30,11 @@ public class PeriodoLetivo implements Serializable {
     @Getter @Setter
     private String nome;
 
-//    @NotNull
-//    @Enumerated(EnumType.ORDINAL)
-//    @Column(name = "regime")
-//    @Getter @Setter
-//    private RegimeEnum regime;
+    @NotNull
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "regime")
+    @Getter @Setter
+    private RegimeEnum regime;
 
     @NotNull
     @Column(name = "data_inicial")

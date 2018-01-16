@@ -1,5 +1,6 @@
 package br.edu.unievangelica.domain.instituicao;
 
+import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.mantenedora.Mantenedora;
 import br.edu.unievangelica.domain.pais.Pais;
 import br.edu.unievangelica.domain.unidade.Unidade;
@@ -41,6 +42,11 @@ public class Instituicao implements Serializable {
     @Getter
     @Setter
     private String nome;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "situacao")
+    @Getter @Setter
+    private SituacaoEnum situacao = SituacaoEnum.ATIVO;
 
     @NotEmpty
     @Size(max = 20)
