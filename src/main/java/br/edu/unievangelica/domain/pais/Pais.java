@@ -1,6 +1,7 @@
 package br.edu.unievangelica.domain.pais;
 
 import br.edu.unievangelica.domain.estado.Estado;
+import br.edu.unievangelica.domain.instituicaoEscolaridade.InstituicaoEscolaridade;
 import br.edu.unievangelica.domain.mantenedora.Mantenedora;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pais")
-@JsonIgnoreProperties({"estados", "mantenedoras"})
+@JsonIgnoreProperties({"estados", "mantenedoras", "instituicoesEscolaridade"})
 public class Pais implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,4 +49,9 @@ public class Pais implements Serializable {
     @Getter
     @Setter
     private List<Mantenedora> mantenedoras;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pais")
+    @Getter
+    @Setter
+    private List<InstituicaoEscolaridade> instituicoesEscolaridade ;
 }
