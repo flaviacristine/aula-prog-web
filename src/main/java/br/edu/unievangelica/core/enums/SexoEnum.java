@@ -6,7 +6,7 @@ public enum SexoEnum {
 	MASCULINO("mensagem.masculino"),
 	
 	/* SEXO FEMININO */
-	FEMININO("mensagem.feminino");
+	FEMININO("mensagem.feminino"); 
 	
 	public String nome;
 
