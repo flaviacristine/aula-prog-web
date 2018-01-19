@@ -5,6 +5,7 @@ import br.edu.unievangelica.domain.arquivo.Arquivo;
 import br.edu.unievangelica.domain.avaliacaoPadrao.AvaliacaoPadrao;
 import br.edu.unievangelica.domain.curso.Curso;
 import br.edu.unievangelica.domain.disciplina.Disciplina;
+import br.edu.unievangelica.domain.emolumento.Emolumento;
 import br.edu.unievangelica.domain.frequenciaPadrao.FrequenciaPadrao;
 import br.edu.unievangelica.domain.instituicao.Instituicao;
 import br.edu.unievangelica.domain.mantenedora.Mantenedora;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "unidade")
-@JsonIgnoreProperties({"disciplinas", "cursos", "avaliacoesPadrao", "frequenciasPadrao"})
+@JsonIgnoreProperties({"disciplinas", "cursos", "avaliacoesPadrao", "frequenciasPadrao", "emolumentos"})
 public class Unidade implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -82,4 +83,9 @@ public class Unidade implements Serializable {
     @Getter
     @Setter
     private List<FrequenciaPadrao> frequenciasPadrao;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "unidade")
+    @Getter
+    @Setter
+    private List<Emolumento> emolumentos;
 }
