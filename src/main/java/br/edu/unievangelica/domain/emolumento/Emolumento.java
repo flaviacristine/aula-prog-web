@@ -23,11 +23,12 @@ public class Emolumento implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emolumento_id_seq")
     @SequenceGenerator(name = "emolumento_id_seq", sequenceName = "emolumento_id_seq", allocationSize = 1)
     @Column(name = "id", updatable= false)
+    @Getter
     private long id;
 
     @NotEmpty
     @Size(max = 10)
-    @Column(name = "codigo", updatable= false)
+    @Column(name = "codigo", updatable= false, unique = true)
     @Getter @Setter
     private String codigo;
 
@@ -49,9 +50,10 @@ public class Emolumento implements Serializable {
     private SituacaoEnum situacao = SituacaoEnum.ATIVO;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "unidade_id", referencedColumnName = "id")
-    private Unidade unidade;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "unidade_id", referencedColumnName = "id", updatable= false )
+    @Getter @Setter
+    Unidade unidade;
 
 //    @JsonIgnore
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "emolumento")

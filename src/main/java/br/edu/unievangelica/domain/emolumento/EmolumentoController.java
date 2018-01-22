@@ -23,6 +23,11 @@ public class EmolumentoController extends ResponseAbstractController {
         return jsonResponse(emolumentoService.findOne(id));
     }
 
+    @GetMapping(value = "/unidade/{id}")
+    public ResponseEntity<?> findByUnidadeId(@PathVariable long id) {
+        return jsonResponse(emolumentoService.findEmolumentosByUnidadeId(id));
+    }
+
     @PostMapping
     public ResponseEntity<?> save(@Validated @RequestBody Emolumento emolumento) {
         return jsonResponse(emolumentoService.save(emolumento));
