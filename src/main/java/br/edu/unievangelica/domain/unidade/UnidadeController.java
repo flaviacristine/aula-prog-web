@@ -18,6 +18,11 @@ public class UnidadeController extends ResponseAbstractController {
         return jsonResponse(unidadeService.findAll());
     }
 
+    @GetMapping(value = "/situacao-ativo")
+    public ResponseEntity<?> findBySituacaoIn() {
+        return jsonResponse(unidadeService.findBySituacaoIn());
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id) {
         return jsonResponse(unidadeService.findOne(id));
