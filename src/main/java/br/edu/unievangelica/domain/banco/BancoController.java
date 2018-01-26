@@ -23,6 +23,16 @@ public class BancoController extends ResponseAbstractController {
         return jsonResponse(bancoService.findBancoByUnidadeId(id));
     }
 
+    @GetMapping(value = "/unidade/{id}/situacao-ativo")
+    public ResponseEntity<?> findBancoByUnidadeIdAndSituacaoIn(@PathVariable long id) {
+        return jsonResponse(bancoService.findBancoByUnidadeIdAndSituacaoIn(id));
+    }
+
+    @GetMapping(value = "/situacao-ativo")
+    public ResponseEntity<?> findBySituacaoIn() {
+        return jsonResponse(bancoService.findBySituacaoIn());
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id) {
         return jsonResponse(bancoService.findOne(id));

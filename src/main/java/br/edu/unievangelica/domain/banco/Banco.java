@@ -1,7 +1,9 @@
 package br.edu.unievangelica.domain.banco;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
+import br.edu.unievangelica.domain.agenciaConta.AgenciaConta;
 import br.edu.unievangelica.domain.unidade.Unidade;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "banco")
@@ -38,7 +41,7 @@ public class Banco implements Serializable {
     private String nome;
 
     @NotNull
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated
     @Column(name = "situacao")
     @Getter @Setter
     private SituacaoEnum situacao = SituacaoEnum.ATIVO;
@@ -49,7 +52,8 @@ public class Banco implements Serializable {
     @Getter @Setter
     private Unidade unidade;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "banco")
-//    @Getter @Setter
-//    private List<AgenciaConta> agenciaContas;
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "banco")
+    @Getter @Setter
+    private List<AgenciaConta> agenciaContas;
 }
