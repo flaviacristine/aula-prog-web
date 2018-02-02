@@ -18,8 +18,8 @@ public class PeriodoLetivo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "unidade_id_seq")
-    @SequenceGenerator( name = "unidade_id_seq", sequenceName = "unidade_id_seq", allocationSize = 1)
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "periodo_letivo_id_seq")
+    @SequenceGenerator( name = "periodo_letivo_id_seq", sequenceName = "periodo_letivo_id_seq", allocationSize = 1)
     @Column(name = "id")
     @Getter
     private long id;

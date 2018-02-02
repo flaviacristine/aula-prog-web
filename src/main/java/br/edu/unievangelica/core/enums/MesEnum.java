@@ -2,40 +2,40 @@ package br.edu.unievangelica.core.enums;
 
 public enum MesEnum {
     /* JANEIRO */
-    JANEIRO("mensagem.janeiro", 1),
+    JANEIRO("Janeiro", 1),
 
     /* FEVEREIRO */
-    FEVEREIRO("mensagem.fevereiro", 2),
+    FEVEREIRO("Fevereiro", 2),
 
     /* MARCO */
-    MARCO("mensagem.marco", 3),
+    MARCO("Marco", 3),
 
     /* ABRIL */
-    ABRIL("mensagem.abril", 4),
+    ABRIL("Abril", 4),
 
     /* MAIO */
-    MAIO("mensagem.maio", 5),
+    MAIO("Maio", 5),
 
     /* JUNHO */
-    JUNHO("mensagem.junho", 6),
+    JUNHO("Junho", 6),
 
     /* JULHO */
-    JULHO("mensagem.julho", 7),
+    JULHO("Julho", 7),
 
     /* AGOSTO */
-    AGOSTO("mensagem.agosto", 8),
+    AGOSTO("Agosto", 8),
 
     /* SETEMBRO */
-    SETEMBRO("mensagem.setembro", 9),
+    SETEMBRO("Setembro", 9),
 
     /* OUTUBRO */
-    OUTUBRO("mensagem.outubro", 10),
+    OUTUBRO("Outubro", 10),
 
     /* NOVEMBRO */
-    NOVEMBRO("mensagem.novembro", 11),
+    NOVEMBRO("Novembro", 11),
 
     /* DEZEMBRO */
-    DEZEMBRO("mensagem.dezembro", 12);
+    DEZEMBRO("Dezembro", 12);
 
     private String nome;
 
