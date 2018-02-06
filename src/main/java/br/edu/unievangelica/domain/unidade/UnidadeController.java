@@ -23,6 +23,11 @@ public class UnidadeController extends ResponseAbstractController {
         return jsonResponse(unidadeService.findBySituacaoIn());
     }
 
+    @GetMapping(value = "/find-nome/{nome}")
+    public ResponseEntity<?> findUnidadeByNomeLike(@PathVariable String nome) {
+        return jsonResponse(unidadeService.findUnidadeByNomeLike(nome));
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable long id) {
         return jsonResponse(unidadeService.findOne(id));

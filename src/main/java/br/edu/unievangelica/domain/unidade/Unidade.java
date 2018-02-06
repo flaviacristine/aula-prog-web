@@ -32,7 +32,7 @@ public class Unidade implements Serializable {
     @SequenceGenerator( name = "unidade_id_seq", sequenceName = "unidade_id_seq", allocationSize = 1)
     @Column(name = "id")
     @Getter
-    private long id;
+    protected long id;
 
     @NotEmpty
     @Size(max = 10)
