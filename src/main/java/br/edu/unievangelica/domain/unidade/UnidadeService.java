@@ -21,8 +21,8 @@ public class UnidadeService extends AbstractService<Unidade> {
     }
 
     public ResponseEntity<String>  findUnidadeByNomeLike(String nome) {
-        Unidade unidade = unidadeRepository.findUnidadeByNomeLike(nome);
-        if (unidade != null)
+        List<Unidade> unidades = unidadeRepository.findUnidadeByNomeLike(nome);
+        if (!unidades.isEmpty())
             return new ResponseEntity<String>(HttpStatus.OK);
         return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
     }

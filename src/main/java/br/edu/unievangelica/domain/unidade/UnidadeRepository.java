@@ -13,5 +13,5 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
 
     public List<Unidade> findBySituacaoIn(SituacaoEnum situacaoEnum);
 
-    public Unidade findUnidadeByNomeLike(String nome);
+    public List<Unidade> findUnidadeByNomeLike(String nome);
 }
