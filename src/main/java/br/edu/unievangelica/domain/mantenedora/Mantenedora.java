@@ -1,6 +1,7 @@
 package br.edu.unievangelica.domain.mantenedora;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
+import br.edu.unievangelica.domain.arquivo.Arquivo;
 import br.edu.unievangelica.domain.instituicao.Instituicao;
 import br.edu.unievangelica.domain.pais.Pais;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -94,4 +95,9 @@ public class Mantenedora implements Serializable {
     @Setter
     private List<Instituicao> instituicoes;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "arquivo_id", referencedColumnName = "id")
+    @Getter
+    @Setter
+    private Arquivo arquivo;
 }
