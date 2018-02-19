@@ -2,9 +2,6 @@ package br.edu.unievangelica.domain.banco;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.core.service.AbstractService;
-import br.edu.unievangelica.domain.emolumento.Emolumento;
-import br.edu.unievangelica.domain.emolumento.EmolumentoRepository;
-import br.edu.unievangelica.domain.unidade.Unidade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

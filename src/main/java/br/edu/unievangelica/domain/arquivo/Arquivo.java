@@ -1,6 +1,6 @@
 package br.edu.unievangelica.domain.arquivo;
 
-import br.edu.unievangelica.domain.unidade.Unidade;
+import br.edu.unievangelica.domain.Unidade;
 import lombok.Getter;
 import lombok.Setter;
 

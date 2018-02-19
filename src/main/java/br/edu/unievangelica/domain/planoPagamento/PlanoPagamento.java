@@ -1,10 +1,8 @@
 package br.edu.unievangelica.domain.planoPagamento;
 
-import br.edu.unievangelica.core.enums.MesEnum;
 import br.edu.unievangelica.domain.cursoTurno.CursoTurno;
 import br.edu.unievangelica.domain.turno.Turno;
-import br.edu.unievangelica.domain.unidade.Unidade;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.edu.unievangelica.domain.Unidade;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;

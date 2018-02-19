@@ -2,7 +2,7 @@ package br.edu.unievangelica.domain.curso;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.cursoTurno.CursoTurno;
-import br.edu.unievangelica.domain.unidade.Unidade;
+import br.edu.unievangelica.domain.Unidade;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;

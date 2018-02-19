@@ -1,6 +1,6 @@
 package br.edu.unievangelica.domain.avaliacaoPadrao;
 
-import br.edu.unievangelica.domain.unidade.Unidade;
+import br.edu.unievangelica.domain.Unidade;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;

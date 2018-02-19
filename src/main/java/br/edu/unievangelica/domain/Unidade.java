@@ -1,4 +1,4 @@
-package br.edu.unievangelica.domain.unidade;
+package br.edu.unievangelica.domain;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.arquivo.Arquivo;

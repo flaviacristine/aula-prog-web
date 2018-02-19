@@ -1,4 +1,4 @@
-package br.edu.unievangelica.domain.unidade;
+package br.edu.unievangelica.domain;
 
 import br.edu.unievangelica.core.controller.ResponseAbstractController;
 import org.springframework.beans.factory.annotation.Autowired;

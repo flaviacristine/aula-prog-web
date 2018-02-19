@@ -2,9 +2,8 @@ package br.edu.unievangelica.domain.banco;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.agenciaConta.AgenciaConta;
-import br.edu.unievangelica.domain.unidade.Unidade;
+import br.edu.unievangelica.domain.Unidade;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
