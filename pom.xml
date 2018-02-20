@@ -26,6 +26,14 @@
 
 	<dependencies>
 
+		<!-- Flyway -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+		<!-- end Flyway -->
+
 		<!-- SPRING BOOT -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
