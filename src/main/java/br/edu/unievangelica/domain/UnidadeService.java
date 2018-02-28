@@ -20,19 +20,26 @@ public class UnidadeService extends AbstractService<Unidade> {
         return unidadeRepository.findBySituacaoIn(SituacaoEnum.ATIVO);
     }
 
-    public ResponseEntity<String>  findUnidadeByNomeLike(String nome) {
-        List<Unidade> unidades = unidadeRepository.findUnidadeByNomeLike(nome);
-        if (!unidades.isEmpty())
-            return new ResponseEntity<String>(HttpStatus.OK);
-        return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+    public boolean findUnidadeByNomeIgnoreCase(String nome) {
+        List<Unidade> unidades = unidadeRepository.findUnidadeByNomeIgnoreCase(nome);
+        if (unidades.isEmpty())
+            return false;
+        return true;
+    }
+
+    public boolean findUnidadeByCodigoIgnoreCase(String codigo) {
+        List<Unidade> unidades = unidadeRepository.findUnidadeByCodigoIgnoreCase(codigo);
+        if (unidades.isEmpty())
+            return false;
+        return true;
     }
 
     @Override
     public Unidade save(Unidade unidade) throws GenericException {
-        List<Unidade> unidades = unidadeRepository.findUnidadeByNomeLike(unidade.getNome(), unidade.getId());
-        if (!unidades.isEmpty()){
-            return null;
-        }
-        return super.save(unidade);
+        List<Unidade> unidades = unidadeRepository.findUnidadeByNomeIgnoreCase(unidade.getNome(), unidade.getId());
+        List<Unidade> unidades1 = unidadeRepository.findUnidadeByCodigoIgnoreCase(unidade.getCodigo(), unidade.getId());
+        if (unidades.isEmpty() && unidades1.isEmpty())
+            return super.save(unidade);
+        return null;
     }
 }

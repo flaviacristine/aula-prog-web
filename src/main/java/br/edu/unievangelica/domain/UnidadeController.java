@@ -2,6 +2,7 @@ package br.edu.unievangelica.domain;
 
 import br.edu.unievangelica.core.controller.ResponseAbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,21 @@ public class UnidadeController extends ResponseAbstractController {
     }
 
     @GetMapping(value = "/find-nome/{nome}")
-    public ResponseEntity<?> findUnidadeByNomeLike(@PathVariable String nome) {
-        return jsonResponse(unidadeService.findUnidadeByNomeLike(nome));
+    public ResponseEntity<?> findUnidadeByNomeIgnoreCase(@PathVariable String nome) {
+        if (unidadeService.findUnidadeByNomeIgnoreCase(nome))
+            return jsonResponse(new ResponseEntity<String>(HttpStatus.CONFLICT));
+        return jsonResponse(new ResponseEntity<String>(HttpStatus.OK));
+    }
+
+    @GetMapping(value = "/find-codigo/{codigo}")
+    public ResponseEntity<?> findUnidadeByCodigoIgnoreCase(@PathVariable String codigo) {
+        if (unidadeService.findUnidadeByCodigoIgnoreCase(codigo))
+            return jsonResponse(new ResponseEntity<String>(HttpStatus.CONFLICT));
+        return jsonResponse(new ResponseEntity<String>(HttpStatus.OK));
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable long id) {
+    public ResponseEntity<?> findOne(@PathVariable long id) {
         return jsonResponse(unidadeService.findOne(id));
     }
 

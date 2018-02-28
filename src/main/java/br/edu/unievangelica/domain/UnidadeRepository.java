@@ -13,9 +13,13 @@ public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
 
     public List<Unidade> findBySituacaoIn(SituacaoEnum situacaoEnum);
 
-    @Query(value = "SELECT * FROM unidade WHERE lower(nome) = lower(:nome) AND id <> :id", nativeQuery = true)
-    public List<Unidade> findUnidadeByNomeLike(@Param("nome") String nome, @Param("id") long id);
+    public List<Unidade> findUnidadeByNomeIgnoreCase(String nome);
 
-    @Query(value = "SELECT * FROM unidade WHERE lower(nome) = lower(:nome)", nativeQuery = true)
-    public List<Unidade> findUnidadeByNomeLike(@Param("nome") String nome);
+    public List<Unidade> findUnidadeByCodigoIgnoreCase(String codigo);
+
+    @Query(value = "SELECT * FROM unidade WHERE lower(nome) = lower(:nome) AND id <> :id", nativeQuery = true)
+    public List<Unidade> findUnidadeByNomeIgnoreCase(@Param("nome") String nome, @Param("id") long id);
+
+    @Query(value = "SELECT * FROM unidade WHERE lower(codigo) = lower(:codigo) AND id <> :id", nativeQuery = true)
+    public List<Unidade> findUnidadeByCodigoIgnoreCase(@Param("codigo") String codigo, @Param("id") long id);
 }

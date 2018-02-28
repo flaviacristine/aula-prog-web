@@ -1,11 +1,12 @@
 package br.edu.unievangelica.domain.unidade;
 
 import br.edu.unievangelica.VirtooApplication;
+import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.Unidade;
 import br.edu.unievangelica.domain.UnidadeController;
 import br.edu.unievangelica.domain.UnidadeService;
 import br.edu.unievangelica.domain.disciplina.Disciplina;
-import javafx.application.Application;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @RunWith(SpringRunner.class)
@@ -43,16 +46,57 @@ public class UnidadeControllerTest {
     private Unidade unidadeMock;
 
     @Mock
+    private List<Unidade> unidadesMock;
+
+    @Mock
     private List<Disciplina> disciplinaListMock;
+
+    @MockBean
+    private Unidade unidadeMockito;
 
     @Mock
     private UnidadeService unidadeServiceMock;
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
     public void setup() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(get("/?language=pt_BR"));
     }
+
+    @Test
+    public void findAll() throws Exception {
+
+        when(unidadeServiceMock.findAll()).thenReturn(unidadesMock);
+
+        Unidade unidade = new Unidade();
+        unidade.setNome("oi");
+        unidade.setCodigo("oi");
+        unidade.setSituacao(SituacaoEnum.ATIVO);
+
+        Unidade unidade1 = new Unidade();
+        unidade1.setNome("oi");
+        unidade1.setCodigo("oi");
+        unidade1.setSituacao(SituacaoEnum.ATIVO);
+
+//        unidadesMock.add(unidadeMockito);
+        unidadesMock.add(unidade);
+        unidadesMock.add(unidade1);
+
+        //1. Convert List of Person objects to JSON
+        String arrayToJson = objectMapper.writeValueAsString(unidadesMock);
+
+        System.out.println(arrayToJson);
+
+//        System.out.println(unidadesMock.listIterator());
+
+//        mockMvc.perform(get("/unidade"))
+//                .andExpect((ResultMatcher) new ResponseEntity<String>(HttpStatus.OK))
+//                .andExpect(MockMvcResultMatchers.content().json(unidadesMock.toString()))
+//                .andDo(MockMvcResultHandlers.print());
+    }
+
 
 //    @Test
 //    public void listarDisciplinas() throws Exception {
