@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/unidade")
 public class UnidadeController extends ResponseAbstractController {
@@ -16,7 +19,9 @@ public class UnidadeController extends ResponseAbstractController {
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-        return jsonResponse(unidadeService.findAll());
+        Map<String, Object> result = new HashMap<>();
+        result.put("unidades", unidadeService.findAll());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "/situacao-ativo")
@@ -26,21 +31,21 @@ public class UnidadeController extends ResponseAbstractController {
 
     @GetMapping(value = "/find-nome/{nome}")
     public ResponseEntity<?> findUnidadeByNomeIgnoreCase(@PathVariable String nome) {
-        if (unidadeService.findUnidadeByNomeIgnoreCase(nome))
-            return jsonResponse(new ResponseEntity<String>(HttpStatus.CONFLICT));
-        return jsonResponse(new ResponseEntity<String>(HttpStatus.OK));
+        HttpStatus status = unidadeService.findUnidadeByNomeIgnoreCase(nome) == true ? HttpStatus.CONFLICT : HttpStatus.OK;
+        return new ResponseEntity<>(status);
     }
 
     @GetMapping(value = "/find-codigo/{codigo}")
     public ResponseEntity<?> findUnidadeByCodigoIgnoreCase(@PathVariable String codigo) {
-        if (unidadeService.findUnidadeByCodigoIgnoreCase(codigo))
-            return jsonResponse(new ResponseEntity<String>(HttpStatus.CONFLICT));
-        return jsonResponse(new ResponseEntity<String>(HttpStatus.OK));
+        HttpStatus status = unidadeService.findUnidadeByCodigoIgnoreCase(codigo) == true ? HttpStatus.CONFLICT : HttpStatus.OK;
+        return new ResponseEntity<>(status);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findOne(@PathVariable long id) {
-        return jsonResponse(unidadeService.findOne(id));
+        Unidade unidade = unidadeService.findOne(id);
+        HttpStatus status = (unidade == null)? HttpStatus.NOT_FOUND : HttpStatus.OK;
+        return new ResponseEntity<Unidade>(unidade, status);
     }
 
     @PostMapping

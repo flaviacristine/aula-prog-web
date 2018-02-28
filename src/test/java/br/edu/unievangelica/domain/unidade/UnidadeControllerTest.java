@@ -1,34 +1,31 @@
 package br.edu.unievangelica.domain.unidade;
 
 import br.edu.unievangelica.VirtooApplication;
-import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.Unidade;
-import br.edu.unievangelica.domain.UnidadeController;
-import br.edu.unievangelica.domain.UnidadeService;
-import br.edu.unievangelica.domain.disciplina.Disciplina;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static io.restassured.RestAssured.get;
+import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.post;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = VirtooApplication.class)
@@ -39,95 +36,110 @@ public class UnidadeControllerTest {
     @Autowired
     WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
-    @InjectMocks
-    private UnidadeController unidadeController;
 
-    @Mock
-    private Unidade unidadeMock;
+    JsonPath unidade;
 
-    @Mock
-    private List<Unidade> unidadesMock;
+    private List<Unidade> unidades;
 
-    @Mock
-    private List<Disciplina> disciplinaListMock;
-
-    @MockBean
-    private Unidade unidadeMockito;
-
-    @Mock
-    private UnidadeService unidadeServiceMock;
-
-    ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
     public void setup() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        mockMvc.perform(get("/?language=pt_BR"));
     }
 
     @Test
     public void findAll() throws Exception {
-
-        when(unidadeServiceMock.findAll()).thenReturn(unidadesMock);
-
-        Unidade unidade = new Unidade();
-        unidade.setNome("oi");
-        unidade.setCodigo("oi");
-        unidade.setSituacao(SituacaoEnum.ATIVO);
-
-        Unidade unidade1 = new Unidade();
-        unidade1.setNome("oi");
-        unidade1.setCodigo("oi");
-        unidade1.setSituacao(SituacaoEnum.ATIVO);
-
-//        unidadesMock.add(unidadeMockito);
-        unidadesMock.add(unidade);
-        unidadesMock.add(unidade1);
-
-        //1. Convert List of Person objects to JSON
-        String arrayToJson = objectMapper.writeValueAsString(unidadesMock);
-
-        System.out.println(arrayToJson);
-
-//        System.out.println(unidadesMock.listIterator());
-
-//        mockMvc.perform(get("/unidade"))
-//                .andExpect((ResultMatcher) new ResponseEntity<String>(HttpStatus.OK))
-//                .andExpect(MockMvcResultMatchers.content().json(unidadesMock.toString()))
-//                .andDo(MockMvcResultHandlers.print());
+        get("http://localhost:8181/api/unidade").
+                then().
+                body("unidades", notNullValue()).
+                and().
+                body("unidades", not(empty())).
+                getClass().equals(Unidade.class);
     }
-
-
-//    @Test
-//    public void listarDisciplinas() throws Exception {
-//        List<Unidade> unidadeListMock = new ArrayList();
-//        unidadeListMock.add(unidadeMock);
-//
-//
-//        Unidade unidade = new Unidade();
-//        unidade.setNome("oi");
-//        unidade.setCodigo("oi");
-//        unidade.setSituacao(SituacaoEnum.ATIVO);
-//        unidade.setDisciplinas(disciplinaListMock);
-//
-//        when(unidadeServiceMock.findAll()).thenReturn(unidadeListMock);
-//
-//        mockMvc.perform(get("/unidade")
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-//                .andExpect(jsonPath("$[0].nome", CoreMatchers.is("oi")))
-//                .andDo(MockMvcResultHandlers.print());
-//    }
 
     @Test
-    public void returnsThePostAsJson() throws Exception {
-        List<Unidade> unidadeListMock = new ArrayList();
-        unidadeListMock.add(unidadeMock);
-        System.out.println(unidadeListMock.iterator().next());
-        mockMvc.perform(get("/unidade/{id}", "1")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-//                .andExpect(jsonPath());
+    public void verificarCamposContidosEmUnidade() throws Exception {
+
+        unidades = get("http://localhost:8181/api/unidade").getBody().jsonPath().getList("unidades", Unidade.class);
+
+        assertThat(unidades, everyItem(hasProperty("id", notNullValue())));
+        assertThat(unidades, everyItem(hasProperty("nome", notNullValue())));
+        assertThat(unidades, everyItem(hasProperty("codigo", notNullValue())));
+        assertThat(unidades, everyItem(hasProperty("situacao", not(empty()))));
+        assertThat(unidades, everyItem(hasProperty("arquivo", isEmptyOrNullString())));
+        assertThat(unidades, everyItem(hasProperty("instituicao", not(empty()))));
     }
+
+    @Test
+    public void buscarPorId() throws Exception {
+
+        get("http://localhost:8181/api/unidade/1").
+                then().
+                statusCode(200).
+                body("id", notNullValue()).
+                body("nome", notNullValue()).
+                body("codigo", notNullValue()).
+                body("situacao", notNullValue()).
+                body("arquivo", isEmptyOrNullString()).
+                body("instituicao", notNullValue()).
+                getClass().equals(Unidade.class);
+    }
+
+    @Test
+    public void verificarCodigoJaCadastradoConflict() throws Exception {
+        get("http://localhost:8181/api/unidade/find-codigo/1").
+                then().
+                statusCode(409);
+    }
+
+    @Test
+    public void verificarCodigoJaCadastradoOk() throws Exception {
+        get("http://localhost:8181/api/unidade/find-codigo/12345").
+                then().
+                statusCode(200);
+    }
+
+    @Test
+    public void verificarNomeJaCadastradoConflict() throws Exception {
+        get("http://localhost:8181/api/unidade/find-nome/unidade").
+                then().
+                statusCode(409);
+    }
+
+    @Test
+    public void verificarNomeJaCadastradoOk() throws Exception {
+        get("http://localhost:8181/api/unidade/find-nome/unidade123").
+                then().
+                statusCode(200);
+    }
+
+    @Test
+    public void salvar() throws Exception {
+
+        given().
+                formParam("nome", "value1").
+                formParam("codigo", 1).
+                formParam("situacao", "ATIVO").
+                formParam("instituicao", "value1").
+                when().
+                post("http://localhost:8181/api/unidade");
+    }
+
+    @Test
+    public void salvarEmJason() throws Exception {
+        Map<String, Object> unidade = new HashMap<>();
+        unidade.put("nome", "John");
+        unidade.put("codigo", "Doe");
+        unidade.put("situacao", "ATIVO");
+//        unidade.put("instituicao", "Doe");
+
+        given().
+                contentType(ContentType.JSON).
+                body(unidade).
+                when().
+                post("http://localhost:8181/api/unidade").
+                then().
+                statusCode(400);
+    }
+
 }
