@@ -27,6 +27,7 @@ public class Instituicao implements Serializable {
     @SequenceGenerator(name = "instituicao_id_seq", sequenceName = "instituicao_id_seq", allocationSize = 1)
     @Column(name = "id")
     @Getter
+    @Setter
     private long id;
 
     @NotEmpty

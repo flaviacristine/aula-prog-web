@@ -7,9 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/unidade")
 public class UnidadeController extends ResponseAbstractController {
@@ -19,9 +16,7 @@ public class UnidadeController extends ResponseAbstractController {
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("unidades", unidadeService.findAll());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return jsonResponse(unidadeService.findAll());
     }
 
     @GetMapping(value = "/situacao-ativo")
@@ -44,8 +39,7 @@ public class UnidadeController extends ResponseAbstractController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findOne(@PathVariable long id) {
         Unidade unidade = unidadeService.findOne(id);
-        HttpStatus status = (unidade == null)? HttpStatus.NOT_FOUND : HttpStatus.OK;
-        return new ResponseEntity<Unidade>(unidade, status);
+        return jsonResponse(unidadeService.findOne(id));
     }
 
     @PostMapping
