@@ -15,28 +15,28 @@ public class PaisController extends ResponseAbstractController {
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-        return jsonResponse(paisService.findAll());
+        return jsonResponse(paisService.listarPorOrdemAlfabetica());
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable long id) {
-        return jsonResponse(paisService.findOne(id));
-    }
-
-    @PostMapping
-    public ResponseEntity<?> save(@Validated @RequestBody Pais pais) {
-        return jsonResponse(paisService.save(pais));
-    }
-
-    @PutMapping
-    public ResponseEntity<?> update(@Validated @RequestBody Pais pais) {
-        return jsonResponse(paisService.save(pais));
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable long id) {
-        paisService.delete(id);
-        return jsonResponse(null);
-    }
+//    @GetMapping(value = "/{id}")
+//    public ResponseEntity<?> findById(@PathVariable long id) {
+//        return jsonResponse(paisService.findOne(id));
+//    }
+//
+//    @PostMapping
+//    public ResponseEntity<?> save(@Validated @RequestBody Pais pais) {
+//        return jsonResponse(paisService.save(pais));
+//    }
+//
+//    @PutMapping
+//    public ResponseEntity<?> update(@Validated @RequestBody Pais pais) {
+//        return jsonResponse(paisService.save(pais));
+//    }
+//
+//    @DeleteMapping(value = "/{id}")
+//    public ResponseEntity<?> delete(@PathVariable long id) {
+//        paisService.delete(id);
+//        return jsonResponse(null);
+//    }
 
 }

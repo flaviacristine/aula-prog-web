@@ -1,6 +1,8 @@
-package br.edu.unievangelica.domain.estado;
+package br.edu.unievangelica.domain.provincia;
 
+import br.edu.unievangelica.domain.municipio.Municipio;
 import br.edu.unievangelica.domain.pais.Pais;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -9,16 +11,18 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "estado")
-public class Estado implements Serializable {
+@Table(name = "provincia")
+@JsonIgnoreProperties({"pais"})
+public class Provincia implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "estado_id_seq")
-    @SequenceGenerator(name = "estado_id_seq", sequenceName = "estado_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "provincia_id_seq")
+    @SequenceGenerator(name = "provincia_id_seq", sequenceName = "provincia_id_seq", allocationSize = 1)
     @Column(name = "id")
     @Getter
     private long id;
@@ -37,10 +41,16 @@ public class Estado implements Serializable {
     private String sigla;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pais_id", referencedColumnName = "id")
     @Getter
     @Setter
-    Pais pais;
+    private Pais pais;
+
+    @OneToMany(mappedBy = "provincia", fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    private List<Municipio> municipios;
+
 
 }

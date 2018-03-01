@@ -2,6 +2,7 @@ package br.edu.unievangelica.domain.mantenedora;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.arquivo.Arquivo;
+import br.edu.unievangelica.domain.endereco.Endereco;
 import br.edu.unievangelica.domain.instituicao.Instituicao;
 import br.edu.unievangelica.domain.pais.Pais;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -10,6 +11,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -58,37 +60,12 @@ public class Mantenedora implements Serializable {
     @Setter
     private String numeroFiscal;
 
-    @Size(max = 100)
-    @Column(name = "endereco")
+    @Valid
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     @Getter
     @Setter
-    private String endereco;
-
-    @NotNull
-    @Size(max = 50)
-    @Column(name = "bairro")
-    @Getter
-    @Setter
-    private String bairro;
-
-    @Size(max = 5)
-    @Column(name = "numero")
-    @Getter
-    @Setter
-    private String numero;
-
-    @Size(max = 10)
-    @Column(name = "caixaPostal")
-    @Getter
-    @Setter
-    private String caixaPostal;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pais_id", referencedColumnName = "id")
-    @Getter
-    @Setter
-    private Pais pais;
+    private Endereco endereco;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "mantenedora")
     @Getter
