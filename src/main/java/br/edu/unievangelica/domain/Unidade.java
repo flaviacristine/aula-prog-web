@@ -6,6 +6,7 @@ import br.edu.unievangelica.domain.avaliacaoPadrao.AvaliacaoPadrao;
 import br.edu.unievangelica.domain.curso.Curso;
 import br.edu.unievangelica.domain.disciplina.Disciplina;
 import br.edu.unievangelica.domain.emolumento.Emolumento;
+import br.edu.unievangelica.domain.endereco.Endereco;
 import br.edu.unievangelica.domain.frequenciaPadrao.FrequenciaPadrao;
 import br.edu.unievangelica.domain.instituicao.Instituicao;
 import br.edu.unievangelica.domain.mantenedora.Mantenedora;
@@ -15,6 +16,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -54,6 +56,13 @@ public class Unidade implements Serializable {
     @Getter
     @Setter
     private SituacaoEnum situacao = SituacaoEnum.ATIVO;
+
+    @Valid
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
+    @Getter
+    @Setter
+    private Endereco endereco;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "unidade")
     @Getter
