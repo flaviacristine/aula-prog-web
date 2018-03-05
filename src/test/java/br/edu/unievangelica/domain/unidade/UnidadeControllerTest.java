@@ -3,10 +3,8 @@ package br.edu.unievangelica.domain.unidade;
 import br.edu.unievangelica.VirtooApplication;
 import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.Unidade;
-import br.edu.unievangelica.domain.UnidadeService;
+import br.edu.unievangelica.domain.banco.Banco;
 import br.edu.unievangelica.domain.instituicao.Instituicao;
-import br.edu.unievangelica.domain.instituicao.InstituicaoService;
-import io.restassured.path.json.JsonPath;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,14 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.hasToString;
 
 
 @RunWith(SpringRunner.class)
@@ -34,8 +30,6 @@ public class UnidadeControllerTest {
 
     @Autowired
     WebApplicationContext webApplicationContext;
-
-    private List<Unidade> unidades;
 
 
     @Before
@@ -63,8 +57,8 @@ public class UnidadeControllerTest {
         instituicao.setId(1);
 
         Unidade unidade = new Unidade();
-        unidade.setNome("Unidade 5");
-        unidade.setCodigo("UN5");
+        unidade.setNome("Unidade 1");
+        unidade.setCodigo("UN1");
         unidade.setSituacao(SituacaoEnum.ATIVO);
         unidade.setInstituicao(instituicao);
 
@@ -126,15 +120,14 @@ public class UnidadeControllerTest {
 
     @Test
     public void buscarItemExistentePeloID() {
-        get("http://localhost:8181/api/unidade/{id}", 6)
+        get("http://localhost:8181/api/unidade/{id}", 2)
                 .then()
-                .statusCode(200)
-                .getClass();
+                .statusCode(200);
     }
 
     @Test
     public void buscarItemInexistentePeloID(){
-        get("http://localhost:8181/api/unidade/{id}", 1)
+        get("http://localhost:8181/api/unidade/{id}", 0)
                 .then()
                 .statusCode(500);
     }
@@ -145,7 +138,7 @@ public class UnidadeControllerTest {
         instituicao.setId(1);
 
         Unidade unidade = new Unidade();
-        unidade.setId(6);
+        unidade.setId(2);
         unidade.setNome("Unidade 2");
         unidade.setCodigo("UN1");
         unidade.setSituacao(SituacaoEnum.ATIVO);
@@ -166,7 +159,7 @@ public class UnidadeControllerTest {
         instituicao.setId(1);
 
         Unidade unidade = new Unidade();
-        unidade.setId(6);
+        unidade.setId(2);
         unidade.setNome("Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / ");
         unidade.setCodigo("UN1");
         unidade.setSituacao(SituacaoEnum.ATIVO);
@@ -176,7 +169,7 @@ public class UnidadeControllerTest {
                 .contentType("application/json")
                 .body(unidade)
                 .when()
-                .post("http://localhost:8181/api/unidade")
+                .put("http://localhost:8181/api/unidade")
                 .then()
                 .statusCode(400);
     }
@@ -187,7 +180,7 @@ public class UnidadeControllerTest {
         instituicao.setId(1);
 
         Unidade unidade = new Unidade();
-        unidade.setId(6);
+        unidade.setId(2);
         unidade.setNome("Unidade 1");
         unidade.setCodigo("UN1");
         unidade.setSituacao(SituacaoEnum.ATIVO);
@@ -199,37 +192,58 @@ public class UnidadeControllerTest {
                 .when()
                 .put("http://localhost:8181/api/unidade")
                 .then()
-                .statusCode(500);
+                .statusCode(200);
     }
 
     @Test
     public void alterarItemInexistente(){
-        get("http://localhost:8181/api/unidade/alterar/{id}", 1)
+        get("http://localhost:8181/api/unidade/alterar/{id}", 0)
                 .then()
                 .statusCode(404);
     }
 
     @Test
-    public void excluirItemCadastrado(){
-        delete("http://localhost:8181/api/unidade/{id}", 5)
+    public void excluirItemComDependencia(){
+        Unidade unidade = new Unidade();
+        unidade.setId(2);
+
+        Banco banco = new Banco();
+        banco.setUnidade(unidade);
+        banco.setCodigo("1");
+        banco.setNome("Banco");
+        banco.setSituacao(SituacaoEnum.ATIVO);
+
+        given()
+                .contentType("application/json")
+                .body(banco)
+                .when()
+                .post("http://localhost:8181/api/banco")
                 .then()
                 .statusCode(200);
 
-        get("http://localhost:8181/api/unidade/{id}", 5)
+        delete("http://localhost:8181/api/unidade/{id}", 2)
                 .then()
                 .statusCode(500);
+
+        delete("http://localhost:8181/api/banco/{id}", 2)
+                .then()
+                .statusCode(200);
     }
 
     @Test
-    public void excluirItemComDependencia(){
-        delete("http://localhost:8181/api/unidade/{id}", 7)
+    public void excluirItemCadastrado(){
+        delete("http://localhost:8181/api/unidade/{id}", 2)
+                .then()
+                .statusCode(200);
+
+        get("http://localhost:8181/api/unidade/{id}", 2)
                 .then()
                 .statusCode(500);
     }
 
     @Test
     public void excluirItemInexistente(){
-        delete("http://localhost:8181/api/unidade/{id}", 1)
+        delete("http://localhost:8181/api/unidade/{id}", 0)
                 .then()
                 .statusCode(404);
     }
