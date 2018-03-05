@@ -1,6 +1,6 @@
 package br.edu.unievangelica.domain.frequenciaPadrao;
 
-import br.edu.unievangelica.domain.Unidade;
+import br.edu.unievangelica.domain.unidade.Unidade;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;

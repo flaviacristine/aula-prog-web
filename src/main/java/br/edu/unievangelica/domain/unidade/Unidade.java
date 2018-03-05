@@ -1,4 +1,4 @@
-package br.edu.unievangelica.domain;
+package br.edu.unievangelica.domain.unidade;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.arquivo.Arquivo;
@@ -9,7 +9,6 @@ import br.edu.unievangelica.domain.emolumento.Emolumento;
 import br.edu.unievangelica.domain.endereco.Endereco;
 import br.edu.unievangelica.domain.frequenciaPadrao.FrequenciaPadrao;
 import br.edu.unievangelica.domain.instituicao.Instituicao;
-import br.edu.unievangelica.domain.mantenedora.Mantenedora;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;

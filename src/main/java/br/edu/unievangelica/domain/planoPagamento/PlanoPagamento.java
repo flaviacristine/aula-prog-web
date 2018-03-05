@@ -2,7 +2,7 @@ package br.edu.unievangelica.domain.planoPagamento;
 
 import br.edu.unievangelica.domain.cursoTurno.CursoTurno;
 import br.edu.unievangelica.domain.turno.Turno;
-import br.edu.unievangelica.domain.Unidade;
+import br.edu.unievangelica.domain.unidade.Unidade;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;

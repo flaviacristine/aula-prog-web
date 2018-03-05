@@ -2,7 +2,6 @@ package br.edu.unievangelica.domain.unidade;
 
 import br.edu.unievangelica.VirtooApplication;
 import br.edu.unievangelica.core.enums.SituacaoEnum;
-import br.edu.unievangelica.domain.Unidade;
 import br.edu.unievangelica.domain.banco.Banco;
 import br.edu.unievangelica.domain.instituicao.Instituicao;
 import org.junit.After;
@@ -15,8 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.hasToString;

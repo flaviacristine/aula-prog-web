@@ -1,4 +1,4 @@
-package br.edu.unievangelica.domain;
+package br.edu.unievangelica.domain.unidade;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
 import org.springframework.data.jpa.repository.JpaRepository;

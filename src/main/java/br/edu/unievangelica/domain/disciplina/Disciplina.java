@@ -1,7 +1,7 @@
 package br.edu.unievangelica.domain.disciplina;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
-import br.edu.unievangelica.domain.Unidade;
+import br.edu.unievangelica.domain.unidade.Unidade;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
