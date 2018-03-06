@@ -28,10 +28,6 @@ public class MantenedoraController extends ResponseAbstractController {
 
     @PostMapping
     public ResponseEntity<?> save(@Validated @RequestBody Mantenedora mantenedora) {
-        System.out.println("oiii " + mantenedora.getArquivo().getId());
-        System.out.println("oiii " + mantenedora.getArquivo().getNome());
-        System.out.println("oiii " + mantenedora.getArquivo().getTipo());
-        System.out.println("oiii " + mantenedora.getArquivo().getDados());
         return jsonResponse(mantenedoraService.save(mantenedora));
     }
 
