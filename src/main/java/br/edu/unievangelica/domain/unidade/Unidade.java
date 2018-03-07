@@ -23,7 +23,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "unidade")
-@JsonIgnoreProperties({"disciplinas", "cursos", "avaliacoesPadrao", "frequenciasPadrao", "emolumentos"})
+@JsonIgnoreProperties({"instituicao", "endereco", "disciplinas", "cursos", "avaliacoesPadrao", "frequenciasPadrao", "emolumentos"})
 public class Unidade implements Serializable {
 
     private static final long serialVersionUID = 1L;

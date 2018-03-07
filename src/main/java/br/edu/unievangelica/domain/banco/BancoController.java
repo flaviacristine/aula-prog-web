@@ -2,6 +2,7 @@ package br.edu.unievangelica.domain.banco;
 
 import br.edu.unievangelica.core.controller.ResponseAbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class BancoController extends ResponseAbstractController {
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-        return jsonResponse(bancoService.findAll());
+        return  new ResponseEntity<>(bancoService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/unidade/{id}")
@@ -40,7 +41,7 @@ public class BancoController extends ResponseAbstractController {
 
     @PostMapping
     public ResponseEntity<?> save(@Validated @RequestBody Banco banco) {
-        return jsonResponse(bancoService.save(banco));
+        return new ResponseEntity<Banco>(bancoService.save(banco), HttpStatus.OK);
     }
 
     @PutMapping

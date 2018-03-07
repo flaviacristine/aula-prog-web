@@ -1,9 +1,17 @@
-package br.edu.unievangelica.domain.unidade;
+package br.edu.unievangelica.domain.banco;
 
 import br.edu.unievangelica.VirtooApplication;
 import br.edu.unievangelica.core.enums.SituacaoEnum;
-import br.edu.unievangelica.domain.banco.Banco;
+import br.edu.unievangelica.domain.agenciaConta.AgenciaConta;
 import br.edu.unievangelica.domain.instituicao.Instituicao;
+import br.edu.unievangelica.domain.banco.Banco;
+import br.edu.unievangelica.domain.unidade.Unidade;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -18,6 +26,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
 
 
@@ -26,7 +36,7 @@ import static org.hamcrest.Matchers.hasToString;
 @WebAppConfiguration
 @ContextConfiguration
 //@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class UnidadeControllerTest {
+public class BancoControllerTest {
 
     @Autowired
     WebApplicationContext webApplicationContext;
@@ -38,6 +48,7 @@ public class UnidadeControllerTest {
     public void setup() throws Exception {
         // Limpar o banco de dados
         // Cadastrar as dependencias
+
     }
 
     @After
@@ -47,7 +58,7 @@ public class UnidadeControllerTest {
 
     @Test
     public void listarComListaVazia(){
-        get("http://localhost:8181/api/unidade")
+        get("http://localhost:8181/api/banco")
                 .then()
                 .statusCode(200)
                 .body(String.valueOf("content".toString()), hasToString("[]"));
@@ -57,20 +68,20 @@ public class UnidadeControllerTest {
 
     @Test
     public void cadastrarItemComDadosValidos(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
-
         Unidade unidade = new Unidade();
-        unidade.setNome("Unidade 1");
-        unidade.setCodigo("UN1");
-        unidade.setSituacao(SituacaoEnum.ATIVO);
-        unidade.setInstituicao(instituicao);
+        unidade.setId(1);
 
-        lastInsertId = given()
+        Banco banco = new Banco();
+        banco.setNome("Banco 1");
+        banco.setCodigo("BC 1");
+        banco.setSituacao(SituacaoEnum.ATIVO);
+        banco.setUnidade(unidade);
+
+        lastInsertId =  given()
                 .contentType("application/json")
-                .body(unidade)
+                .body(banco)
                 .when()
-                .post("http://localhost:8181/api/unidade")
+                .post("http://localhost:8181/api/banco")
                 .then()
                 .statusCode(200)
                 .and()
@@ -81,20 +92,20 @@ public class UnidadeControllerTest {
 
     @Test
     public void cadastrarItemComDadosInvalidos(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
-
         Unidade unidade = new Unidade();
-        unidade.setNome("Unidade 5");
-        unidade.setCodigo("UN555555555");
-        unidade.setSituacao(SituacaoEnum.ATIVO);
-        unidade.setInstituicao(instituicao);
+        unidade.setId(1);
+
+        Banco banco = new Banco();
+        banco.setNome("Banco 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        banco.setCodigo("BC 1111111111");
+        banco.setSituacao(SituacaoEnum.ATIVO);
+        banco.setUnidade(unidade);
 
         given()
                 .contentType("application/json")
-                .body(unidade)
+                .body(banco)
                 .when()
-                .post("http://localhost:8181/api/unidade")
+                .post("http://localhost:8181/api/banco")
                 .then()
                 .statusCode(400);
 
@@ -103,20 +114,20 @@ public class UnidadeControllerTest {
 
     @Test
     public void cadastrarItemComDadosDuplicados(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
-
         Unidade unidade = new Unidade();
-        unidade.setNome("Unidade 1");
-        unidade.setCodigo("UN1");
-        unidade.setSituacao(SituacaoEnum.ATIVO);
-        unidade.setInstituicao(instituicao);
+        unidade.setId(1);
+
+        Banco banco = new Banco();
+        banco.setNome("Banco 1");
+        banco.setCodigo("BC 1");
+        banco.setSituacao(SituacaoEnum.ATIVO);
+        banco.setUnidade(unidade);
 
         given()
                 .contentType("application/json")
-                .body(unidade)
+                .body(banco)
                 .when()
-                .post("http://localhost:8181/api/unidade")
+                .post("http://localhost:8181/api/banco")
                 .then()
                 .statusCode(500);
 
@@ -125,7 +136,7 @@ public class UnidadeControllerTest {
 
     @Test
     public void listarTodosItens(){
-        get("http://localhost:8181/api/unidade")
+        get("http://localhost:8181/api/banco")
                 .then()
                 .statusCode(200);
 
@@ -134,16 +145,17 @@ public class UnidadeControllerTest {
 
     @Test
     public void buscarItemExistentePeloID() {
-        get("http://localhost:8181/api/unidade/{id}", lastInsertId)
-                .then()
-                .statusCode(200);
+
+        get("http://localhost:8181/api/banco/{id}", lastInsertId)
+        .then()
+        .statusCode(200);
 
         buscarItemInexistentePeloID();
     }
 
     @Test
     public void buscarItemInexistentePeloID(){
-        get("http://localhost:8181/api/unidade/{id}", 0)
+        get("http://localhost:8181/api/banco/{id}", 0)
                 .then()
                 .statusCode(500);
 
@@ -152,21 +164,21 @@ public class UnidadeControllerTest {
 
     @Test
     public void alterarItemCadastradoComDadosValidos(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
-
         Unidade unidade = new Unidade();
-        unidade.setId(lastInsertId);
-        unidade.setNome("Unidade 2");
-        unidade.setCodigo("UN1");
-        unidade.setSituacao(SituacaoEnum.ATIVO);
-        unidade.setInstituicao(instituicao);
+        unidade.setId(1);
+
+        Banco banco = new Banco();
+        banco.setId(lastInsertId);
+        banco.setNome("Banco 2");
+        banco.setCodigo("BC 1");
+        banco.setSituacao(SituacaoEnum.ATIVO);
+        banco.setUnidade(unidade);
 
         given()
                 .contentType("application/json")
-                .body(unidade)
+                .body(banco)
                 .when()
-                .put("http://localhost:8181/api/unidade")
+                .put("http://localhost:8181/api/banco")
                 .then()
                 .statusCode(200);
 
@@ -175,21 +187,21 @@ public class UnidadeControllerTest {
 
     @Test
     public void alterarItemCadastradoComDadosInvalidos(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
-
         Unidade unidade = new Unidade();
-        unidade.setId(lastInsertId);
-        unidade.setNome("Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / ");
-        unidade.setCodigo("UN1");
-        unidade.setSituacao(SituacaoEnum.ATIVO);
-        unidade.setInstituicao(instituicao);
+        unidade.setId(1);
+
+        Banco banco = new Banco();
+        banco.setId(lastInsertId);
+        banco.setNome("Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / Banco 2 / ");
+        banco.setCodigo("UN 1");
+        banco.setSituacao(SituacaoEnum.ATIVO);
+        banco.setUnidade(unidade);
 
         given()
                 .contentType("application/json")
-                .body(unidade)
+                .body(banco)
                 .when()
-                .put("http://localhost:8181/api/unidade")
+                .put("http://localhost:8181/api/banco")
                 .then()
                 .statusCode(400);
 
@@ -198,21 +210,21 @@ public class UnidadeControllerTest {
 
     @Test
     public void alterarItemCadastradoComDadosDuplicados(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
-
         Unidade unidade = new Unidade();
-        unidade.setId(lastInsertId);
-        unidade.setNome("Unidade 1");
-        unidade.setCodigo("UN1");
-        unidade.setSituacao(SituacaoEnum.ATIVO);
-        unidade.setInstituicao(instituicao);
+        unidade.setId(1);
+
+        Banco banco = new Banco();
+        banco.setId(lastInsertId);
+        banco.setNome("Banco 1");
+        banco.setCodigo("BC 1");
+        banco.setSituacao(SituacaoEnum.ATIVO);
+        banco.setUnidade(unidade);
 
         given()
                 .contentType("application/json")
-                .body(unidade)
+                .body(banco)
                 .when()
-                .put("http://localhost:8181/api/unidade")
+                .put("http://localhost:8181/api/banco")
                 .then()
                 .statusCode(200);
 
@@ -221,7 +233,7 @@ public class UnidadeControllerTest {
 
     @Test
     public void alterarItemInexistente(){
-        get("http://localhost:8181/api/unidade/alterar/{id}", 0)
+        get("http://localhost:8181/api/banco/alterar/{id}", 0)
                 .then()
                 .statusCode(404);
 
@@ -230,30 +242,33 @@ public class UnidadeControllerTest {
 
     @Test
     public void excluirItemComDependencia(){
-        Unidade unidade = new Unidade();
-        unidade.setId(lastInsertId);
-
         Banco banco = new Banco();
-        banco.setUnidade(unidade);
-        banco.setCodigo("1");
-        banco.setNome("Banco");
-        banco.setSituacao(SituacaoEnum.ATIVO);
+        banco.setId(lastInsertId);
 
-        long lastInsertBancoId = given()
+        AgenciaConta agenciaConta = new AgenciaConta();
+        agenciaConta.setBanco(banco);
+        agenciaConta.setAgencia("agencia");
+        agenciaConta.setConta("conta");
+        agenciaConta.setTipoConta("tipoConta");
+        agenciaConta.setSituacao(SituacaoEnum.ATIVO);
+
+        long lastInsertAgenciaId = given()
                 .contentType("application/json")
-                .body(banco)
+                .body(agenciaConta)
                 .when()
-                .post("http://localhost:8181/api/banco")
+                .post("http://localhost:8181/api/agencia-conta")
                 .then()
                 .statusCode(200)
                 .and()
-                .extract().response().as(Banco.class).getId();
+                .extract()
+                .response()
+                .as(AgenciaConta.class).getId();
 
-        delete("http://localhost:8181/api/unidade/{id}", lastInsertId)
+        delete("http://localhost:8181/api/banco/{id}", lastInsertId)
                 .then()
                 .statusCode(500);
 
-        delete("http://localhost:8181/api/banco/{id}", lastInsertBancoId)
+        delete("http://localhost:8181/api/agencia-conta/{id}", lastInsertAgenciaId)
                 .then()
                 .statusCode(200);
 
@@ -262,11 +277,11 @@ public class UnidadeControllerTest {
 
     @Test
     public void excluirItemCadastrado(){
-        delete("http://localhost:8181/api/unidade/{id}", lastInsertId)
+        delete("http://localhost:8181/api/banco/{id}", lastInsertId)
                 .then()
                 .statusCode(200);
 
-        get("http://localhost:8181/api/unidade/{id}", lastInsertId)
+        get("http://localhost:8181/api/banco/{id}", lastInsertId)
                 .then()
                 .statusCode(500);
 
@@ -275,7 +290,7 @@ public class UnidadeControllerTest {
 
     @Test
     public void excluirItemInexistente(){
-        delete("http://localhost:8181/api/unidade/{id}", 0)
+        delete("http://localhost:8181/api/banco/{id}", 0)
                 .then()
                 .statusCode(404);
     }

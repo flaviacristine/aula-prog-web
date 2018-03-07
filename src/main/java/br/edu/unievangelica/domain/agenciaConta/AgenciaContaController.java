@@ -2,6 +2,7 @@ package br.edu.unievangelica.domain.agenciaConta;
 
 import br.edu.unievangelica.core.controller.ResponseAbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class AgenciaContaController extends ResponseAbstractController {
 
     @PostMapping
     public ResponseEntity<?> save(@Validated @RequestBody AgenciaConta agenciaConta) {
-        return jsonResponse(agenciaContaService.save(agenciaConta));
+        return new ResponseEntity<AgenciaConta>(agenciaContaService.save(agenciaConta), HttpStatus.OK);
     }
 
     @PutMapping

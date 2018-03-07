@@ -2,6 +2,7 @@ package br.edu.unievangelica.domain.agenciaConta;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.banco.Banco;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -22,6 +23,7 @@ public class AgenciaConta implements Serializable {
     @SequenceGenerator(name = "agencia_conta_id_seq", sequenceName = "agencia_conta_id_seq", allocationSize = 1)
     @Column(name = "id")
     @Getter
+    @Setter
     private long id;
 
     @NotEmpty

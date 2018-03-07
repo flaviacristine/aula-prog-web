@@ -4,6 +4,7 @@ import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.agenciaConta.AgenciaConta;
 import br.edu.unievangelica.domain.unidade.Unidade;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "banco")
+@JsonIgnoreProperties({"agenciaContas"})
 public class Banco implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,6 +27,7 @@ public class Banco implements Serializable {
     @SequenceGenerator( name = "banco_id_seq", sequenceName = "banco_id_seq", allocationSize = 1)
     @Column(name = "id")
     @Getter
+    @Setter
     private long id;
 
     @NotEmpty
@@ -51,7 +54,6 @@ public class Banco implements Serializable {
     @Getter @Setter
     private Unidade unidade;
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "banco")
     @Getter @Setter
     private List<AgenciaConta> agenciaContas;
