@@ -1,5 +1,6 @@
 package br.edu.unievangelica.domain.arquivo;
 
+import br.edu.unievangelica.domain.mantenedora.Mantenedora;
 import br.edu.unievangelica.domain.unidade.Unidade;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,4 +36,7 @@ public class Arquivo implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "arquivo")
     private Unidade unidade;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "arquivo")
+    private Mantenedora mantenedora;
 }

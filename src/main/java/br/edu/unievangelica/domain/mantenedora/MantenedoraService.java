@@ -1,6 +1,9 @@
 package br.edu.unievangelica.domain.mantenedora;
 
+import br.edu.unievangelica.core.exception.GenericException;
 import br.edu.unievangelica.core.service.AbstractService;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,3 +12,4 @@ import org.springframework.stereotype.Service;
 @Service
 public class MantenedoraService extends AbstractService<Mantenedora> {
 }
+

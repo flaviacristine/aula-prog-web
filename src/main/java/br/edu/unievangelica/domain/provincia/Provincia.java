@@ -15,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "provincia")
-@JsonIgnoreProperties({"pais"})
+@JsonIgnoreProperties({"municipios"})
 public class Provincia implements Serializable{
 
     private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public class Provincia implements Serializable{
     private String sigla;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pais_id", referencedColumnName = "id")
     @Getter
     @Setter

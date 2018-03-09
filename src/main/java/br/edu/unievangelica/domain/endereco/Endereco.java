@@ -17,7 +17,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "endereco")
-@JsonIgnoreProperties({"municipio", "instituicao", "unidade", "mantenedora", "instituicaoEscolaridade"})
+@JsonIgnoreProperties({"instituicao", "unidade", "mantenedora", "instituicaoEscolaridade"})
 public class Endereco implements Serializable{
 
     private static final long serialVersionUID = 1L;
