@@ -43,7 +43,7 @@ public class AbstractService<T> implements IService<T> {
     public List<T> findAll() {
 
         //throw new CustomNotFoundException(ExceptionMessageCode.MENSAGEM_NOT_FOUND);
-
+        System.out.println("--- ABSTRACT SERVICE ---");
         return (List<T>) repository.findAll();
     }
 

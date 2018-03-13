@@ -16,7 +16,8 @@ public class BancoController extends ResponseAbstractController {
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-        return  new ResponseEntity<>(bancoService.findAll(), HttpStatus.OK);
+        System.out.println("--- BANCO CONTROLLER ---");
+        return  jsonResponse(bancoService.findAll());
     }
 
     @GetMapping(value = "/unidade/{id}")
