@@ -3,13 +3,18 @@ package br.edu.unievangelica.domain.unidade;
 import br.edu.unievangelica.VirtooApplication;
 import br.edu.unievangelica.core.enums.SituacaoEnum;
 import br.edu.unievangelica.domain.banco.Banco;
+import br.edu.unievangelica.domain.endereco.Endereco;
 import br.edu.unievangelica.domain.instituicao.Instituicao;
+import br.edu.unievangelica.domain.municipio.Municipio;
+import lombok.Setter;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,10 +39,30 @@ public class UnidadeControllerTest {
     // Pegar o id do último item cadastrado no banco para os testes.
     long lastInsertId;
 
+    Unidade unidade;
+
+    Endereco endereco;
+
+    Instituicao instituicao;
+
     @Before
     public void setup() throws Exception {
         // Limpar o banco de dados
         // Cadastrar as dependencias
+
+        get("http://localhost:8181/api/instituicao/{id}", 1)
+                .then()
+                .statusCode(200);
+
+        Instituicao instituicao = new Instituicao();
+        instituicao.setId(1);
+
+        System.out.println(instituicao.getNome());
+
+        Endereco endereco = new Endereco();
+        endereco.setId(3);
+
+        System.out.println(endereco.getBairro());
     }
 
     @After
@@ -51,20 +76,32 @@ public class UnidadeControllerTest {
                 .then()
                 .statusCode(200)
                 .body(String.valueOf("content".toString()), hasToString("[]"));
-
-        cadastrarItemComDadosValidos();
     }
 
     @Test
     public void cadastrarItemComDadosValidos(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
-
-        Unidade unidade = new Unidade();
-        unidade.setNome("Unidade 1");
-        unidade.setCodigo("UN1");
+//        Municipio municipio = new Municipio();
+//        municipio.setId(2);
+//
+//        endereco = new Endereco();
+//        endereco.setNumero(RandomStringUtils.randomAlphabetic(3));
+//        endereco.setBairro(RandomStringUtils.randomAlphabetic(3));
+//        endereco.setCaixaPostal(RandomStringUtils.randomAlphabetic(3));
+//        endereco.setLogradouro(RandomStringUtils.randomAlphabetic(3));
+//        endereco.setMunicipio(municipio);
+//
+//        Instituicao instituicao = new Instituicao();
+//        instituicao.setId(1);
+//
+        unidade = new Unidade();
+        unidade.setNome("Unidade " + RandomStringUtils.randomAlphabetic(3));
+        unidade.setCodigo(RandomStringUtils.randomAlphabetic(3));
         unidade.setSituacao(SituacaoEnum.ATIVO);
         unidade.setInstituicao(instituicao);
+        unidade.setEndereco(endereco);
+
+//        unidade = new Unidade();
+//        unidade.setId(1);
 
         lastInsertId = given()
                 .contentType("application/json")
@@ -74,15 +111,15 @@ public class UnidadeControllerTest {
                 .then()
                 .statusCode(200)
                 .and()
-                .extract().response().as(Banco.class).getId();
+                .extract().response().jsonPath().getLong("content.id");
 
-        cadastrarItemComDadosInvalidos();
+        delete("http://localhost:8181/api/unidade/{id}", lastInsertId)
+                .then()
+                .statusCode(200);
     }
 
     @Test
     public void cadastrarItemComDadosInvalidos(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
 
         Unidade unidade = new Unidade();
         unidade.setNome("Unidade 5");
@@ -97,14 +134,10 @@ public class UnidadeControllerTest {
                 .post("http://localhost:8181/api/unidade")
                 .then()
                 .statusCode(400);
-
-        cadastrarItemComDadosDuplicados();
     }
 
     @Test
     public void cadastrarItemComDadosDuplicados(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
 
         Unidade unidade = new Unidade();
         unidade.setNome("Unidade 1");
@@ -119,26 +152,38 @@ public class UnidadeControllerTest {
                 .post("http://localhost:8181/api/unidade")
                 .then()
                 .statusCode(500);
-
-        listarTodosItens();
     }
 
     @Test
     public void listarTodosItens(){
-        get("http://localhost:8181/api/unidade")
-                .then()
-                .statusCode(200);
-
-        buscarItemExistentePeloID();
+        get("http://localhost:8181/api/unidade").then().statusCode(200);
     }
 
     @Test
     public void buscarItemExistentePeloID() {
+        unidade = new Unidade();
+        unidade.setNome("Instituto Superior Politécnico Vida 1");
+        unidade.setCodigo("UN1");
+        unidade.setSituacao(SituacaoEnum.ATIVO);
+        unidade.setInstituicao(instituicao);
+        unidade.setEndereco(endereco);
+
+        lastInsertId = given()
+                .contentType("application/json")
+                .body(unidade)
+                .when()
+                .post("http://localhost:8181/api/unidade")
+                .then()
+                .statusCode(200)
+                .extract().response().jsonPath().getLong("content.id");
+
         get("http://localhost:8181/api/unidade/{id}", lastInsertId)
                 .then()
                 .statusCode(200);
 
-        buscarItemInexistentePeloID();
+        delete("http://localhost:8181/api/unidade/{id}", lastInsertId)
+                .then()
+                .statusCode(200);
     }
 
     @Test
@@ -146,21 +191,34 @@ public class UnidadeControllerTest {
         get("http://localhost:8181/api/unidade/{id}", 0)
                 .then()
                 .statusCode(500);
-
-        alterarItemCadastradoComDadosValidos();
     }
 
     @Test
     public void alterarItemCadastradoComDadosValidos(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
 
-        Unidade unidade = new Unidade();
-        unidade.setId(lastInsertId);
-        unidade.setNome("Unidade 2");
+        unidade = new Unidade();
+        unidade.setNome("Instituto Superior Politécnico Vida 1");
         unidade.setCodigo("UN1");
         unidade.setSituacao(SituacaoEnum.ATIVO);
         unidade.setInstituicao(instituicao);
+        unidade.setEndereco(endereco);
+
+        lastInsertId = given()
+                .contentType("application/json")
+                .body(unidade)
+                .when()
+                .post("http://localhost:8181/api/unidade")
+                .then()
+                .statusCode(200)
+                .extract().response().jsonPath().getLong("content.id");
+
+        unidade = new Unidade();
+        unidade.setId(lastInsertId);
+        unidade.setNome("Instituto Superior Politécnico Vida 2");
+        unidade.setCodigo("UN1");
+        unidade.setSituacao(SituacaoEnum.ATIVO);
+        unidade.setInstituicao(instituicao);
+        unidade.setEndereco(endereco);
 
         given()
                 .contentType("application/json")
@@ -170,20 +228,37 @@ public class UnidadeControllerTest {
                 .then()
                 .statusCode(200);
 
-        alterarItemCadastradoComDadosInvalidos();
+        delete("http://localhost:8181/api/unidade/{id}", lastInsertId)
+                .then()
+                .statusCode(200);
     }
 
     @Test
     public void alterarItemCadastradoComDadosInvalidos(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
 
-        Unidade unidade = new Unidade();
-        unidade.setId(lastInsertId);
-        unidade.setNome("Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / Unidade 2 / ");
+        unidade = new Unidade();
+        unidade.setNome("Instituto Superior Politécnico Vida 1");
         unidade.setCodigo("UN1");
         unidade.setSituacao(SituacaoEnum.ATIVO);
         unidade.setInstituicao(instituicao);
+        unidade.setEndereco(endereco);
+
+        lastInsertId = given()
+                .contentType("application/json")
+                .body(unidade)
+                .when()
+                .post("http://localhost:8181/api/unidade")
+                .then()
+                .statusCode(200)
+                .extract().response().jsonPath().getLong("content.id");
+
+        Unidade unidade = new Unidade();
+        unidade.setId(lastInsertId);
+        unidade.setNome(RandomStringUtils.randomAlphabetic(90));
+        unidade.setCodigo(RandomStringUtils.randomAlphabetic(10));
+        unidade.setSituacao(SituacaoEnum.ATIVO);
+        unidade.setInstituicao(instituicao);
+        unidade.setEndereco(endereco);
 
         given()
                 .contentType("application/json")
@@ -193,20 +268,29 @@ public class UnidadeControllerTest {
                 .then()
                 .statusCode(400);
 
-        alterarItemCadastradoComDadosDuplicados();
+        delete("http://localhost:8181/api/unidade/{id}", lastInsertId)
+                .then()
+                .statusCode(200);
     }
 
     @Test
     public void alterarItemCadastradoComDadosDuplicados(){
-        Instituicao instituicao = new Instituicao();
-        instituicao.setId(1);
 
-        Unidade unidade = new Unidade();
-        unidade.setId(lastInsertId);
+        unidade = new Unidade();
         unidade.setNome("Unidade 1");
         unidade.setCodigo("UN1");
         unidade.setSituacao(SituacaoEnum.ATIVO);
         unidade.setInstituicao(instituicao);
+        unidade.setEndereco(endereco);
+
+        lastInsertId = given()
+                .contentType("application/json")
+                .body(unidade)
+                .when()
+                .post("http://localhost:8181/api/unidade")
+                .then()
+                .statusCode(200)
+                .extract().response().jsonPath().getLong("content.id");
 
         given()
                 .contentType("application/json")
@@ -214,9 +298,11 @@ public class UnidadeControllerTest {
                 .when()
                 .put("http://localhost:8181/api/unidade")
                 .then()
-                .statusCode(200);
+                .statusCode(500);
 
-        alterarItemInexistente();
+        delete("http://localhost:8181/api/unidade/{id}", lastInsertId)
+                .then()
+                .statusCode(200);
     }
 
     @Test
@@ -224,14 +310,25 @@ public class UnidadeControllerTest {
         get("http://localhost:8181/api/unidade/alterar/{id}", 0)
                 .then()
                 .statusCode(404);
-
-        excluirItemComDependencia();
     }
 
     @Test
     public void excluirItemComDependencia(){
-        Unidade unidade = new Unidade();
-        unidade.setId(lastInsertId);
+        unidade = new Unidade();
+        unidade.setNome("Unidade 1");
+        unidade.setCodigo("UN1");
+        unidade.setSituacao(SituacaoEnum.ATIVO);
+        unidade.setInstituicao(instituicao);
+        unidade.setEndereco(endereco);
+
+        lastInsertId = given()
+                .contentType("application/json")
+                .body(unidade)
+                .when()
+                .post("http://localhost:8181/api/unidade")
+                .then()
+                .statusCode(200)
+                .extract().response().jsonPath().getLong("content.id");
 
         Banco banco = new Banco();
         banco.setUnidade(unidade);
@@ -257,11 +354,29 @@ public class UnidadeControllerTest {
                 .then()
                 .statusCode(200);
 
-        excluirItemCadastrado();
+        delete("http://localhost:8181/api/unidade/{id}", lastInsertId)
+                .then()
+                .statusCode(200);
     }
 
     @Test
     public void excluirItemCadastrado(){
+        unidade = new Unidade();
+        unidade.setNome(RandomStringUtils.randomAlphabetic(10));
+        unidade.setCodigo(RandomStringUtils.randomAlphabetic(3));
+        unidade.setSituacao(SituacaoEnum.ATIVO);
+        unidade.setInstituicao(instituicao);
+        unidade.setEndereco(endereco);
+
+        lastInsertId = given()
+                .contentType("application/json")
+                .body(unidade)
+                .when()
+                .post("http://localhost:8181/api/unidade")
+                .then()
+                .statusCode(200)
+                .extract().response().jsonPath().getLong("content.id");
+
         delete("http://localhost:8181/api/unidade/{id}", lastInsertId)
                 .then()
                 .statusCode(200);
@@ -269,8 +384,6 @@ public class UnidadeControllerTest {
         get("http://localhost:8181/api/unidade/{id}", lastInsertId)
                 .then()
                 .statusCode(500);
-
-        excluirItemInexistente();
     }
 
     @Test

@@ -16,7 +16,7 @@ public class BancoController extends ResponseAbstractController {
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-        return  new ResponseEntity<>(bancoService.findAll(), HttpStatus.OK);
+        return  jsonResponse(bancoService.findAll());
     }
 
     @GetMapping(value = "/unidade/{id}")
@@ -41,7 +41,7 @@ public class BancoController extends ResponseAbstractController {
 
     @PostMapping
     public ResponseEntity<?> save(@Validated @RequestBody Banco banco) {
-        return new ResponseEntity<Banco>(bancoService.save(banco), HttpStatus.OK);
+        return jsonResponse(bancoService.save(banco));
     }
 
     @PutMapping
