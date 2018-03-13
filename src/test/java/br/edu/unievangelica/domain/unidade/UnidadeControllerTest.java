@@ -30,7 +30,6 @@ import static org.hamcrest.Matchers.hasToString;
 @SpringBootTest(classes = VirtooApplication.class)
 @WebAppConfiguration
 @ContextConfiguration
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UnidadeControllerTest {
 
     @Autowired
@@ -39,30 +38,20 @@ public class UnidadeControllerTest {
     // Pegar o id do último item cadastrado no banco para os testes.
     long lastInsertId;
 
-    Unidade unidade;
+    Unidade unidade = new Unidade();
 
-    Endereco endereco;
+    Endereco endereco = new Endereco();
 
-    Instituicao instituicao;
+    Instituicao instituicao = new Instituicao();
 
     @Before
     public void setup() throws Exception {
         // Limpar o banco de dados
         // Cadastrar as dependencias
 
-        get("http://localhost:8181/api/instituicao/{id}", 1)
-                .then()
-                .statusCode(200);
-
-        Instituicao instituicao = new Instituicao();
         instituicao.setId(1);
 
-        System.out.println(instituicao.getNome());
-
-        Endereco endereco = new Endereco();
-        endereco.setId(3);
-
-        System.out.println(endereco.getBairro());
+        endereco.setId(5);
     }
 
     @After
@@ -90,18 +79,14 @@ public class UnidadeControllerTest {
 //        endereco.setLogradouro(RandomStringUtils.randomAlphabetic(3));
 //        endereco.setMunicipio(municipio);
 //
-//        Instituicao instituicao = new Instituicao();
+//        instituicao = new Instituicao();
 //        instituicao.setId(1);
-//
-        unidade = new Unidade();
+
         unidade.setNome("Unidade " + RandomStringUtils.randomAlphabetic(3));
         unidade.setCodigo(RandomStringUtils.randomAlphabetic(3));
         unidade.setSituacao(SituacaoEnum.ATIVO);
         unidade.setInstituicao(instituicao);
         unidade.setEndereco(endereco);
-
-//        unidade = new Unidade();
-//        unidade.setId(1);
 
         lastInsertId = given()
                 .contentType("application/json")

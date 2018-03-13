@@ -25,6 +25,7 @@ public class Municipio implements Serializable{
     @SequenceGenerator(name = "municipio_id_seq", sequenceName = "municipio_id_seq", allocationSize = 1)
     @Column(name = "id")
     @Getter
+    @Setter
     private long id;
 
     @NotEmpty

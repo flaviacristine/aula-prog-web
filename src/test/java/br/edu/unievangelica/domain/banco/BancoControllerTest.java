@@ -34,7 +34,6 @@ import static org.mockito.Mockito.spy;
 @SpringBootTest(classes = VirtooApplication.class)
 @WebAppConfiguration
 @ContextConfiguration
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BancoControllerTest {
 
     @Autowired
@@ -43,66 +42,15 @@ public class BancoControllerTest {
     // Pegar o id do último item cadastrado no banco para os testes.
     long lastInsertId;
 
-    @Spy
-    Unidade unidade;
+    Unidade unidade = new Unidade();
 
-    @Spy
-    Endereco endereco;
+    Banco banco = new Banco();
 
     @Before
     public void setup() throws Exception {
         // Limpar o banco de dados
         // Cadastrar as dependencias
-
-        Municipio municipio = new Municipio();
-        municipio.setId(2);
-//
-//        System.out.println("Município ==> " + municipio);
-//
-        endereco = new Endereco();
-        endereco.setNumero(RandomStringUtils.randomAlphabetic(3));
-        endereco.setBairro(RandomStringUtils.randomAlphabetic(3));
-        endereco.setCaixaPostal(RandomStringUtils.randomAlphabetic(3));
-        endereco.setLogradouro(RandomStringUtils.randomAlphabetic(3));
-//
-        unidade = new Unidade();
-//        unidade.setId(1);
-
-        unidade.setCodigo(RandomStringUtils.randomAlphabetic(3));
-        unidade.setNome(RandomStringUtils.randomAlphabetic(3));
-        unidade.setSituacao(SituacaoEnum.ATIVO);
-//        unidade.setEndereco(endereco);
-
-        given()
-                .contentType("application/json")
-                .body(unidade)
-                .when()
-                .post("http://localhost:8181/api/unidade")
-                .then()
-                .statusCode(200);
-//
-//        Instituicao instituicao = new Instituicao();
-//        instituicao.setCodigo(RandomStringUtils.randomAlphabetic(3));
-//        instituicao.setNome(RandomStringUtils.randomAlphabetic(3));
-//        instituicao.setEndereco(endereco);
-//        instituicao.setSituacao(SituacaoEnum.ATIVO);
-//        instituicao.setNumeroFiscal(RandomStringUtils.randomAlphabetic(3));
-////
-//        Mantenedora mantenedora = new Mantenedora();
-//        mantenedora.setCodigo(RandomStringUtils.randomAlphabetic(3));
-//        mantenedora.setNome(RandomStringUtils.randomAlphabetic(3));
-//        mantenedora.setEndereco(endereco);
-//        mantenedora.setSituacao(SituacaoEnum.ATIVO);
-//        mantenedora.setNumeroFiscal(RandomStringUtils.randomAlphabetic(3));
-//
-//        instituicao.setMantenedora(mantenedora);
-//
-//        unidade.setInstituicao(instituicao);
-
-//        System.out.println(instituicao.getMantenedora().getNome());
-//
-//        endereco.setUnidade(unidade);
-//        endereco.setMunicipio(municipio);
+        unidade.setId(1);
     }
 
     @After
@@ -113,8 +61,6 @@ public class BancoControllerTest {
 
     @Test
     public void cadastrarItemComDadosValidos() {
-
-        Banco banco = new Banco();
         banco.setNome("banco " + RandomStringUtils.randomAlphabetic(3));
         banco.setCodigo(RandomStringUtils.randomAlphabetic(3));
         banco.setSituacao(SituacaoEnum.ATIVO);
@@ -137,8 +83,6 @@ public class BancoControllerTest {
 
     @Test
     public void cadastrarItemComDadosInvalidos() {
-
-        Banco banco = new Banco();
         banco.setNome(RandomStringUtils.randomAlphabetic(90));
         banco.setCodigo(RandomStringUtils.randomAlphabetic(6));
         banco.setSituacao(SituacaoEnum.ATIVO);
@@ -155,8 +99,6 @@ public class BancoControllerTest {
 
     @Test
     public void cadastrarItemComDadosDuplicados() {
-
-        Banco banco = new Banco();
         banco.setNome("Banco 1");
         banco.setCodigo("BC 1");
         banco.setSituacao(SituacaoEnum.ATIVO);
@@ -193,8 +135,6 @@ public class BancoControllerTest {
 
     @Test
     public void buscarItemExistentePeloID() {
-
-        Banco banco = new Banco();
         banco.setNome(RandomStringUtils.randomAlphabetic(3));
         banco.setCodigo(RandomStringUtils.randomAlphabetic(3));
         banco.setSituacao(SituacaoEnum.ATIVO);
@@ -227,8 +167,6 @@ public class BancoControllerTest {
 
     @Test
     public void alterarItemCadastradoComDadosValidos() {
-
-        Banco banco = new Banco();
         banco.setNome(RandomStringUtils.randomAlphabetic(3));
         banco.setCodigo(RandomStringUtils.randomAlphabetic(3));
         banco.setSituacao(SituacaoEnum.ATIVO);
@@ -265,8 +203,6 @@ public class BancoControllerTest {
 
     @Test
     public void alterarItemCadastradoComDadosInvalidos() {
-
-        Banco banco = new Banco();
         banco.setNome(RandomStringUtils.randomAlphabetic(3));
         banco.setCodigo(RandomStringUtils.randomAlphabetic(3));
         banco.setSituacao(SituacaoEnum.ATIVO);
@@ -303,8 +239,6 @@ public class BancoControllerTest {
 
     @Test
     public void alterarItemCadastradoComDadosDuplicados() {
-
-        Banco banco = new Banco();
         banco.setNome("Banco 1");
         banco.setCodigo("BC 1");
         banco.setSituacao(SituacaoEnum.ATIVO);
@@ -367,8 +301,6 @@ public class BancoControllerTest {
 
     @Test
     public void excluirItemComDependencia() {
-
-        Banco banco = new Banco();
         banco.setNome(RandomStringUtils.randomAlphabetic(3));
         banco.setCodigo(RandomStringUtils.randomAlphabetic(3));
         banco.setSituacao(SituacaoEnum.ATIVO);
@@ -419,8 +351,6 @@ public class BancoControllerTest {
 
     @Test
     public void excluirItemCadastrado() {
-
-        Banco banco = new Banco();
         banco.setNome(RandomStringUtils.randomAlphabetic(3));
         banco.setCodigo(RandomStringUtils.randomAlphabetic(3));
         banco.setSituacao(SituacaoEnum.ATIVO);
@@ -442,8 +372,6 @@ public class BancoControllerTest {
         get("http://localhost:8181/api/banco/{id}", lastInsertId)
                 .then()
                 .statusCode(500);
-
-        excluirItemInexistente();
     }
 
     @Test

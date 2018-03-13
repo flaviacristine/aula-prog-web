@@ -27,6 +27,7 @@ public class Endereco implements Serializable{
     @SequenceGenerator(name = "endereco_id_seq", sequenceName = "endereco_id_seq", allocationSize = 1)
     @Column(name = "id")
     @Getter
+    @Setter
     private long id;
 
     @Size(max = 80)
