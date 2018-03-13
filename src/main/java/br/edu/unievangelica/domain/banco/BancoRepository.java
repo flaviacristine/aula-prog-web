@@ -13,5 +13,8 @@ public interface BancoRepository extends CrudRepository<Banco, Long> {
 
     public List<Banco> findBancoByUnidadeId(long id);
 
+    public List<Banco> findBancoByNomeIgnoreCase(String nome);
+
+
     public List<Banco> findBancoByUnidadeIdAndSituacaoIn(long id, SituacaoEnum situacaoEnum);
 }

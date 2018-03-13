@@ -38,6 +38,7 @@ public class UnidadeService extends AbstractService<Unidade> {
         List<Unidade> unidades1 = unidadeRepository.findUnidadeByCodigoIgnoreCase(unidade.getCodigo(), unidade.getId());
         if (unidades.isEmpty() && unidades1.isEmpty())
             return super.save(unidade);
+        System.out.println("******************************************************** DUPLICADO");
         throw new GenericException("Item duplicado");
     }
 }

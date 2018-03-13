@@ -65,7 +65,7 @@ public class Instituicao implements Serializable {
     private Endereco endereco;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mantenedora_id", referencedColumnName = "id")
     @Getter
     @Setter

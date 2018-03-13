@@ -20,6 +20,9 @@ public class AbstractService<T> implements IService<T> {
             return repository.save(obj);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("**************************");
+            System.out.println(e);
+            System.out.println("**************************");
             throw new GenericException(ExceptionMessageCode.MENSAGEM_REGISTRO_DUPLICADO);
         }
     }

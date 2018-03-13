@@ -23,7 +23,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "unidade")
-@JsonIgnoreProperties({"instituicao", "endereco", "disciplinas", "cursos", "avaliacoesPadrao", "frequenciasPadrao", "emolumentos"})
+@JsonIgnoreProperties({"disciplinas", "cursos", "avaliacoesPadrao", "frequenciasPadrao", "emolumentos"})
 public class Unidade implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,7 +56,6 @@ public class Unidade implements Serializable {
     @Setter
     private SituacaoEnum situacao = SituacaoEnum.ATIVO;
 
-    @Valid
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     @Getter
