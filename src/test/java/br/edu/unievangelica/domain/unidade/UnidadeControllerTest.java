@@ -69,18 +69,6 @@ public class UnidadeControllerTest {
 
     @Test
     public void cadastrarItemComDadosValidos(){
-//        Municipio municipio = new Municipio();
-//        municipio.setId(2);
-//
-//        endereco = new Endereco();
-//        endereco.setNumero(RandomStringUtils.randomAlphabetic(3));
-//        endereco.setBairro(RandomStringUtils.randomAlphabetic(3));
-//        endereco.setCaixaPostal(RandomStringUtils.randomAlphabetic(3));
-//        endereco.setLogradouro(RandomStringUtils.randomAlphabetic(3));
-//        endereco.setMunicipio(municipio);
-//
-//        instituicao = new Instituicao();
-//        instituicao.setId(1);
 
         unidade.setNome("Unidade " + RandomStringUtils.randomAlphabetic(3));
         unidade.setCodigo(RandomStringUtils.randomAlphabetic(3));
