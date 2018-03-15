@@ -31,8 +31,7 @@ import java.util.List;
 import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -94,8 +93,6 @@ public class BancoControllerTest {
 
     }
 
-    @Before
-
     @After
     public void finish() throws Exception {
     }
@@ -141,7 +138,7 @@ public class BancoControllerTest {
 
     @Test
     public void cadastrarItemComDadosDuplicados(){
-        doThrow(new GenericException(ExceptionMessageCode.MENSAGEM_REGISTRO_DUPLICADO)).when(bancoRepository).save(banco2);
+        when(bancoRepository.save(banco)).thenThrow(new GenericException(ExceptionMessageCode.MENSAGEM_REGISTRO_DUPLICADO));
 
         io.restassured.module.mockmvc.RestAssuredMockMvc.given()
                 .contentType("application/json")
@@ -149,9 +146,8 @@ public class BancoControllerTest {
                 .when()
                 .post("/banco")
                 .then()
-                .body("content.error", hasItems("Registro já existe !"))
-                .extract()
-                .path("content");
+                .statusCode(200)
+                .body("messages.ERROR", hasItem("Registro já existe !") );
     }
 
     @Test
@@ -182,7 +178,7 @@ public class BancoControllerTest {
 
     @Test
     public void alterarItemCadastradoComDadosDuplicados(){
-        doThrow(new GenericException(ExceptionMessageCode.MENSAGEM_REGISTRO_DUPLICADO)).when(bancoRepository).save(banco);
+        when(bancoRepository.save(banco)).thenThrow(new GenericException(ExceptionMessageCode.MENSAGEM_REGISTRO_DUPLICADO));
 
         io.restassured.module.mockmvc.RestAssuredMockMvc.given()
                 .contentType("application/json")

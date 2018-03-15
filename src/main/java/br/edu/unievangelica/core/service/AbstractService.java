@@ -1,9 +1,7 @@
 package br.edu.unievangelica.core.service;
 
 
-import br.edu.unievangelica.core.exception.CustomNotFoundException;
-import br.edu.unievangelica.core.exception.ExceptionMessageCode;
-import br.edu.unievangelica.core.exception.GenericException;
+import br.edu.unievangelica.core.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
@@ -20,7 +18,7 @@ public class AbstractService<T> implements IService<T> {
             return repository.save(obj);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new GenericException(ExceptionMessageCode.MENSAGEM_REGISTRO_DUPLICADO);
+            throw new CustomInternalException(e.getMessage());
         }
     }
 
@@ -32,7 +30,7 @@ public class AbstractService<T> implements IService<T> {
                 repository.delete(id);
                 return true;
             } catch (Exception e) {
-                throw new GenericException(ExceptionMessageCode.MENSAGEM_REGISTRO_COM_DEPENDENCIA);
+                throw new CustomDependencyException(e.getMessage());
             }
         }
 
@@ -41,9 +39,7 @@ public class AbstractService<T> implements IService<T> {
 
     @Override
     public List<T> findAll() {
-
-        //throw new CustomNotFoundException(ExceptionMessageCode.MENSAGEM_NOT_FOUND);
-        System.out.println("--- ABSTRACT SERVICE ---");
+        System.out.println(" ------------ ABSTRACT SERVICE ------------------ ");
         return (List<T>) repository.findAll();
     }
 
@@ -51,7 +47,7 @@ public class AbstractService<T> implements IService<T> {
     public T findOne(long id) throws GenericException {
         T obj = repository.findOne(id);
         if (obj == null) {
-            throw new GenericException(ExceptionMessageCode.MENSAGEM_NOT_FOUND);
+            throw new CustomNotFoundException(ExceptionMessageCode.MENSAGEM_NOT_FOUND);
         }
         return obj;
     }
