@@ -13,7 +13,7 @@ public class AbstractService<T> implements IService<T> {
     protected CrudRepository<T, Long> repository;
 
     @Override
-    public T save(T obj) throws GenericException {
+    public T save(T obj) throws CustomDuplicatedException {
         try {
             return repository.save(obj);
         } catch (Exception e) {
@@ -39,7 +39,6 @@ public class AbstractService<T> implements IService<T> {
 
     @Override
     public List<T> findAll() {
-        System.out.println(" ------------ ABSTRACT SERVICE ------------------ ");
         return (List<T>) repository.findAll();
     }
 

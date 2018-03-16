@@ -1,6 +1,8 @@
 package br.edu.unievangelica.domain.unidade;
 
 import br.edu.unievangelica.core.enums.SituacaoEnum;
+import br.edu.unievangelica.core.exception.CustomDuplicatedException;
+import br.edu.unievangelica.core.exception.ExceptionMessageCode;
 import br.edu.unievangelica.core.exception.GenericException;
 import br.edu.unievangelica.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +40,6 @@ public class UnidadeService extends AbstractService<Unidade> {
         List<Unidade> unidades1 = unidadeRepository.findUnidadeByCodigoIgnoreCase(unidade.getCodigo(), unidade.getId());
         if (unidades.isEmpty() && unidades1.isEmpty())
             return super.save(unidade);
-        System.out.println("******************************************************** DUPLICADO");
-        throw new GenericException("Item duplicado");
+        throw new CustomDuplicatedException(ExceptionMessageCode.MENSAGEM_REGISTRO_DUPLICADO);
     }
 }
