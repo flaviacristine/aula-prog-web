@@ -1,6 +1,5 @@
 package br.edu.unievangelica.domain.provincia;
 
-import br.edu.unievangelica.domain.municipio.Municipio;
 import br.edu.unievangelica.domain.pais.Pais;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -11,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "provincia")
@@ -46,11 +44,6 @@ public class Provincia implements Serializable{
     @Getter
     @Setter
     private Pais pais;
-
-    @OneToMany(mappedBy = "provincia", fetch = FetchType.LAZY)
-    @Getter
-    @Setter
-    private List<Municipio> municipios;
 
 
 }
