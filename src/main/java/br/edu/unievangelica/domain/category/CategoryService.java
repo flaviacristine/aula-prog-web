@@ -24,6 +24,6 @@ public class CategoryService {
     }
 
     public Category save(Category category){
-        return categoryRepository.findOne(id);
+        return categoryRepository.save(category);
     }
 }
