@@ -34,6 +34,7 @@ public class ProdutoController extends ResponseAbstractController {
     public ResponseEntity<?> save (@Validated @RequestBody Produto produto){
         return jsonResponse(produtoService.save(produto));
     }
+
     @PutMapping
     public ResponseEntity<?> update (@Validated @RequestBody Produto produto){
         return jsonResponse(produtoService.save(produto));

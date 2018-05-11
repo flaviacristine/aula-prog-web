@@ -58,7 +58,6 @@ public class Produto implements Serializable {
     @Setter
     private String descricao;
 
-    @NotEmpty
     @Column(name = "preco")
     @Getter
     @Setter
